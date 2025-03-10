@@ -1,0 +1,26 @@
+events {
+    worker_connections 1024;
+}
+
+http {
+    server {
+        listen 80;
+
+        # Frontend - React App
+        location / {
+            proxy_pass http://54.242.207.173:80;  # Replace with your actual public IP and port
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        }
+
+        # Backend - API Server
+        location /api/ {
+            proxy_pass http://54.242.207.173:8080/;     
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        }
+    }
+}
+
