@@ -18,17 +18,18 @@ jobs:
           aws-secret-access-key: ${{ secrets.Access_key }}  
           aws-region: us-east-1
       - name: Login to AWS ECR
-        run: | aws ecr command;
+        run: | 
+           aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 869935092862.dkr.ecr.us-east-1.amazonaws.com
       - name: Build Docker image
         run: |
           docker build -t backend ./backend/
           docker build -t frontend ./frontend/
       - name: Push image to DockerHub
         run: |
-          docker tag backend:latest image uri:latest
-          docker tag frontend:latest image uri:latest
-          docker push backend-image-uri:latest
-          docker push frontend-image-uri:latest
+          docker tag backend:latest 869935092862.dkr.ecr.us-east-1.amazonaws.com/backend:latest
+          docker tag frontend:latest 869935092862.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
+          docker push 869935092862.dkr.ecr.us-east-1.amazonaws.com/backend:latest
+          docker push 869935092862.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
       - name: Deploy to EC2 instance
         env:
           SSH_KEY: ${{ secrets.EC2_SSH_KEY }}  
@@ -43,11 +44,13 @@ jobs:
             sudo apt install docker.io -y || true
             sudo systemctl enable docker || true
             sudo systemctl start docker || true
-            sudo docker stop kartik || true
-            sudo docker rm kartik || true
-            sudo docker run 
-            sudo docker pull kartikeya1112/latest-image:latest
-            sudo docker pull Imgae_uri:latest
-            sudo docker run --name=backend -p 2000:5000 -d kartikeya1112/latest-image:latest
-            sudo docker run --name=frontend 
+            sudo docker stop backend || true
+            sudo docker rm backend || true
+            sudo docker stop frontend || true
+            sudo docker rm frontend || true
+            sudo docker run -d  --name mysql-container -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=kartikdatabase  -e MYSQL_USER=kartikuser -e MYSQL_PASSWORD=password -p 3300:3306 mysql:latest || true
+            docker pull 869935092862.dkr.ecr.us-east-1.amazonaws.com/backend:latest
+            docker pull 869935092862.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
+            sudo docker run --name=backend -p 5000:5000 -d 869935092862.dkr.ecr.us-east-1.amazonaws.com/backend:latest
+            sudo docker run --name=frontend -p 3000:80 -d 869935092862.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
           EOF
