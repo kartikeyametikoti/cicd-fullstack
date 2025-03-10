@@ -19,7 +19,7 @@ jobs:
           aws-region: us-east-1
       - name: Login to AWS ECR
         run: | 
-           aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 869935092862.dkr.ecr.us-east-1.amazonaws.com
+           sudo aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 869935092862.dkr.ecr.us-east-1.amazonaws.com
       - name: Build Docker image
         run: |
           docker build -t backend ./backend/
