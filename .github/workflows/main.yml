@@ -18,15 +18,17 @@ jobs:
           aws-secret-access-key: ${{ secrets.Access_key }}  
           aws-region: us-east-1
       - name: Login to AWS ECR
-        uses: 
+        run: | aws ecr command;
       - name: Build Docker image
         run: |
           docker build -t backend ./backend/
           docker build -t frontend ./frontend/
       - name: Push image to DockerHub
         run: |
-          docker tag kartik:latest kartikeya1112/latest-image:latest
-          docker push kartikeya1112/latest-image:latest
+          docker tag backend:latest image uri:latest
+          docker tag frontend:latest image uri:latest
+          docker push backend-image-uri:latest
+          docker push frontend-image-uri:latest
       - name: Deploy to EC2 instance
         env:
           SSH_KEY: ${{ secrets.EC2_SSH_KEY }}  
@@ -43,6 +45,9 @@ jobs:
             sudo systemctl start docker || true
             sudo docker stop kartik || true
             sudo docker rm kartik || true
+            sudo docker run 
             sudo docker pull kartikeya1112/latest-image:latest
-            sudo docker run --name=kartik -p 2000:5000 -d kartikeya1112/latest-image:latest
+            sudo docker pull Imgae_uri:latest
+            sudo docker run --name=backend -p 2000:5000 -d kartikeya1112/latest-image:latest
+            sudo docker run --name=frontend 
           EOF
