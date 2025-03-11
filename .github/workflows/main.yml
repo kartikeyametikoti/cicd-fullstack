@@ -31,10 +31,10 @@ jobs:
           docker build -t frontend ./frontend/
       - name: Push image to ECR
         run: |
-          docker tag backend:latest $ECR_REPO_backend:latest
-          docker tag frontend:latest $ECR_REPO_frontend:latest
-          docker push $ECR_REPO_backend:latest
-          docker push $ECR_REPO_frontend:latest
+          docker tag backend:latest ${{ secrets.ECR_REPO_backend }}:latest
+          docker tag frontend:latest ${{ secrets.ECR_REPO_frontend }}:latest
+          docker push ${{ secrets.ECR_REPO_backend }}:latest
+          docker push ${{ secrets.ECR_REPO_frontend }}:latest
       - name: Deploy to EC2 instance
         env:
           SSH_KEY: ${{ secrets.EC2_SSH_KEY }}  
@@ -53,13 +53,13 @@ jobs:
             sudo docker rm backend || true
             sudo docker stop frontend || true
             sudo docker rm frontend || true
-            sudo docker rmi $ECR_REPO_backend:latest
-            sudo docker rmi $ECR_REPO_frontend:latest
+            sudo docker rmi ${{ secrets.ECR_REPO_backend }}:latest
+            sudo docker rmi ${{ secrets.ECR_REPO_frontend }}:latest
             sudo docker stop mysql-container || true
             sudo docker rm mysql-container || true
             sudo docker run -d  --name mysql-container -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=kartikdatabase  -e MYSQL_USER=kartikuser -e MYSQL_PASSWORD=password -p 3300:3306 mysql:latest || true
-            docker pull $ECR_REPO_backend:latest
-            docker pull $ECR_REPO_frontend:latest
-            sudo docker run --name=backend -p 5000:5000 -d $ECR_REPO_backend:latest
-            sudo docker run --name=frontend -p 3000:80 -d $ECR_REPO_frontend:latest
+            docker pull ${{ secrets.ECR_REPO_backend }}:latest
+            docker pull ${{ secrets.ECR_REPO_frontend }}:latest
+            sudo docker run --name=backend -p 5000:5000 -d ${{ secrets.ECR_REPO_backend }}:latest
+            sudo docker run --name=frontend -p 3000:80 -d ${{ secrets.ECR_REPO_frontend }}:latest
           EOF
