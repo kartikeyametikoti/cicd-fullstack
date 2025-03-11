@@ -24,7 +24,7 @@ jobs:
         run: |
           docker build -t backend ./backend/
           docker build -t frontend ./frontend/
-      - name: Push image to DockerHub
+      - name: Push image to ECR
         run: |
           docker tag backend:latest 869935092862.dkr.ecr.us-east-1.amazonaws.com/backend:latest
           docker tag frontend:latest 869935092862.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
