@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - main
+env:
+  ECR_REPO_frontend: ${{ secrets.ECR_REPO_frontend }}  
+  ECR_REPO_backend: ${{ secrets.ECR_REPO_backend }}
+  IMAGE_TAG: latest
+  ECR_password: ${{ secrets.ECR_password }}
 
 jobs:
   build_image_deploy:
@@ -19,17 +24,17 @@ jobs:
           aws-region: us-east-1
       - name: Login to AWS ECR
         run: | 
-           aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 869935092862.dkr.ecr.us-east-1.amazonaws.com
+           aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $ECR_password
       - name: Build Docker image
         run: |
           docker build -t backend ./backend/
           docker build -t frontend ./frontend/
       - name: Push image to ECR
         run: |
-          docker tag backend:latest 869935092862.dkr.ecr.us-east-1.amazonaws.com/backend:latest
-          docker tag frontend:latest 869935092862.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
-          docker push 869935092862.dkr.ecr.us-east-1.amazonaws.com/backend:latest
-          docker push 869935092862.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
+          docker tag backend:latest $ECR_REPO_backend:latest
+          docker tag frontend:latest $ECR_REPO_frontend:latest
+          docker push $ECR_REPO_backend:latest
+          docker push $ECR_REPO_frontend:latest
       - name: Deploy to EC2 instance
         env:
           SSH_KEY: ${{ secrets.EC2_SSH_KEY }}  
@@ -48,11 +53,11 @@ jobs:
             sudo docker rm backend || true
             sudo docker stop frontend || true
             sudo docker rm frontend || true
-            sudo docker rmi 869935092862.dkr.ecr.us-east-1.amazonaws.com/backend:latest
-            sudo docker rmi 869935092862.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
+            sudo docker rmi $ECR_REPO_backend:latest
+            sudo docker rmi $ECR_REPO_frontend:latest
             sudo docker run -d  --name mysql-container -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=kartikdatabase  -e MYSQL_USER=kartikuser -e MYSQL_PASSWORD=password -p 3300:3306 mysql:latest || true
-            docker pull 869935092862.dkr.ecr.us-east-1.amazonaws.com/backend:latest
-            docker pull 869935092862.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
-            sudo docker run --name=backend -p 5000:5000 -d 869935092862.dkr.ecr.us-east-1.amazonaws.com/backend:latest
-            sudo docker run --name=frontend -p 3000:80 -d 869935092862.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
+            docker pull $ECR_REPO_backend:latest
+            docker pull $ECR_REPO_frontend:latest
+            sudo docker run --name=backend -p 5000:5000 -d $ECR_REPO_backend:latest
+            sudo docker run --name=frontend -p 3000:80 -d $ECR_REPO_frontend:latest
           EOF
