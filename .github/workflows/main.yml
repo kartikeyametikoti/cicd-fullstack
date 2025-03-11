@@ -55,8 +55,6 @@ jobs:
             sudo docker rm frontend || true
             sudo docker rmi ${{ secrets.ECR_REPO_backend }}:latest
             sudo docker rmi ${{ secrets.ECR_REPO_frontend }}:latest
-            sudo docker stop mysql-container || true
-            sudo docker rm mysql-container || true
             sudo docker run -d  --name mysql-container -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=kartikdatabase  -e MYSQL_USER=kartikuser -e MYSQL_PASSWORD=password -p 3300:3306 mysql:latest || true
             docker pull ${{ secrets.ECR_REPO_backend }}:latest
             docker pull ${{ secrets.ECR_REPO_frontend }}:latest
