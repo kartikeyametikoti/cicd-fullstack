@@ -48,6 +48,8 @@ jobs:
             sudo docker rm backend || true
             sudo docker stop frontend || true
             sudo docker rm frontend || true
+            sudo docker rmi 869935092862.dkr.ecr.us-east-1.amazonaws.com/backend:latest
+            sudo docker rmi 869935092862.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
             sudo docker run -d  --name mysql-container -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=kartikdatabase  -e MYSQL_USER=kartikuser -e MYSQL_PASSWORD=password -p 3300:3306 mysql:latest || true
             docker pull 869935092862.dkr.ecr.us-east-1.amazonaws.com/backend:latest
             docker pull 869935092862.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
