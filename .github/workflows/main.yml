@@ -47,7 +47,7 @@ jobs:
           SSH_IP: ${{ secrets.SSH_IP }}
         run: |
           echo "$SSH_KEY" > kartik-keypair.pem
-          sudo chmod 600 kartik-keypair.pem
+          sudo chmod 400 kartik-keypair.pem
           ssh -o StrictHostKeyChecking=no -i kartik-keypair.pem $SSH_USER@$SSH_IP << 'EOF'
             sudo apt update
             sudo apt upgrade -y
@@ -58,11 +58,11 @@ jobs:
             sudo docker rm backend || true
             sudo docker stop frontend || true
             sudo docker rm frontend || true
-            sudo docker rmi ${{ secrets.ECR_REPO_backend }}:latest
-            sudo docker rmi ${{ secrets.ECR_REPO_frontend }}:latest
+            sudo docker rmi ${{ secrets.ECR_REPO_backend }}:$COMMIT_ID
+            sudo docker rmi ${{ secrets.ECR_REPO_frontend }}:$COMMIT_ID
             sudo docker run -d  --name mysql-container -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=kartikdatabase  -e MYSQL_USER=kartikuser -e MYSQL_PASSWORD=password -p 3300:3306 mysql:latest || true
-            docker pull ${{ secrets.ECR_REPO_backend }}:latest
-            docker pull ${{ secrets.ECR_REPO_frontend }}:latest
-            sudo docker run --name=backend -p 5000:5000 -d ${{ secrets.ECR_REPO_backend }}:latest
-            sudo docker run --name=frontend -p 3000:80 -d ${{ secrets.ECR_REPO_frontend }}:latest
+            docker pull ${{ secrets.ECR_REPO_backend }}:$COMMIT_ID
+            docker pull ${{ secrets.ECR_REPO_frontend }}:$COMMIT_ID
+            sudo docker run --name=backend -p 5000:5000 -d ${{ secrets.ECR_REPO_backend }}:$COMMIT_ID
+            sudo docker run --name=frontend -p 3000:80 -d ${{ secrets.ECR_REPO_frontend }}:$COMMIT_ID
           EOF
