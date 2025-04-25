@@ -9,15 +9,15 @@ on:
 #   ECR_REPO_backend: ${{ secrets.ECR_REPO_backend }}
 #   IMAGE_TAG: latest
 #   ECR_password: ${{ secrets.ECR_password }}
-# permissions:
-#       id-token: write   # ✅ Required for OIDC
-#       contents: read
+permissions:
+      id-token: write   # ✅ Required for OIDC
+      contents: read
 jobs:
   build_image_deploy:
     runs-on: ubuntu-latest  
     steps:
-      - name: Checkout source code
-        uses: actions/checkout@v3
+      # - name: Checkout source code
+      #   uses: actions/checkout@v3
       - name: Configure AWS credentials using OIDC
         uses: aws-actions/configure-aws-credentials@v2
         with:
