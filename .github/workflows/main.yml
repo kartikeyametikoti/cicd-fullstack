@@ -16,14 +16,16 @@ jobs:
   build_image_deploy:
     runs-on: ubuntu-latest  
     steps:
-      # - name: Checkout source code
-      #   uses: actions/checkout@v3
+      - name: Checkout source code
+        uses: actions/checkout@v3
       - name: Configure AWS credentials using OIDC
         uses: aws-actions/configure-aws-credentials@v2
         with:
          role-to-assume: arn:aws:iam::015800953128:role/admin-oidc
          aws-region: ${{ secrets.AWS_REGION }}
-         
+      - name: getting the commid id as tag
+        run: |
+           echo "COMMIT_ID=$(git rev-parse --short=6 HEAD)" >> $GITHUB_ENV  
       - name: Login to AWS ECR
         run: | 
            aws ecr get-login-password --region ${{ secrets.AWS_REGION}} | docker login --username AWS --password-stdin $ECR_password
@@ -34,10 +36,10 @@ jobs:
           docker build -t frontend ./frontend/
       - name: Push image to ECR
         run: |
-          docker tag backend:latest ${{ secrets.ECR_REPO_backend }}:latest
-          docker tag frontend:latest ${{ secrets.ECR_REPO_frontend }}:latest
-          docker push ${{ secrets.ECR_REPO_backend }}:latest
-          docker push ${{ secrets.ECR_REPO_frontend }}:latest
+          docker tag backend:latest ${{ secrets.ECR_REPO_backend }}:$COMMIT_ID
+          docker tag frontend:latest ${{ secrets.ECR_REPO_frontend }}:$COMMIT_ID
+          docker push ${{ secrets.ECR_REPO_backend }}:$COMMIT_ID
+          docker push ${{ secrets.ECR_REPO_frontend }}:$COMMIT_ID
       - name: Deploy to EC2 instance
         env:
           SSH_KEY: ${{ secrets.EC2_SSH_KEY }}  
