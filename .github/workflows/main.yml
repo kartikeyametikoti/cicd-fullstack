@@ -28,8 +28,8 @@ jobs:
            echo "COMMIT_ID=$(git rev-parse --short=6 HEAD)" >> $GITHUB_ENV  
       - name: Login to AWS ECR
         run: | 
-           aws ecr get-login-password --region ${{ secrets.AWS_REGION}} | docker login --username AWS --password-stdin $ECR_password
-
+           # aws ecr get-login-password --region ${{ secrets.AWS_REGION}} | docker login --username AWS --password-stdin $ECR_password
+           aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 015800953128.dkr.ecr.us-east-1.amazonaws.com
       - name: Build Docker image
         run: |
           docker build -t backend ./backend/
