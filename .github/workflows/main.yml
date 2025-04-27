@@ -4,9 +4,9 @@ on:
   push: 
     branches:
       - main
-# env: 
-#   ECR_REPO_frontend: ${{ secrets.ECR_REPO_frontend }}  
-#   ECR_REPO_backend: ${{ secrets.ECR_REPO_backend }}
+env: 
+  ECR_REPO_frontend: ${{ secrets.ECR_REPO_frontend }}  
+  ECR_REPO_backend: ${{ secrets.ECR_REPO_backend }}
 #   IMAGE_TAG: latest
 #   ECR_password: ${{ secrets.ECR_password }}
 permissions:
