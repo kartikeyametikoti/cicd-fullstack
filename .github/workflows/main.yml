@@ -3,7 +3,7 @@ name: cicd-ec2
 on:
   push: 
     branches:
-      - main
+      - main 
 # env: 
 #   ECR_REPO_frontend: ${{ secrets.ECR_REPO_frontend }}  
 #   ECR_REPO_backend: ${{ secrets.ECR_REPO_backend }}
