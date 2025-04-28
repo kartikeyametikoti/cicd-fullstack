@@ -61,8 +61,8 @@ jobs:
             sudo docker rm frontend || true
             sudo docker rmi ${{ secrets.ECR_REPO_backend }}:latest || true
             sudo docker rmi ${{ secrets.ECR_REPO_frontend }}:latest || true
-            sudo docker stop mysql-container || true
-            sudo docker rm mysql-container || true
+            # sudo docker stop mysql-container || true
+            # sudo docker rm mysql-container || true
             sudo docker run -d --name mysql-container -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=kartikdatabase  -e MYSQL_USER=kartikuser -e MYSQL_PASSWORD=password -p 3300:3306 mysql:latest || true
             aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin 015800953128.dkr.ecr.us-east-1.amazonaws.com
             sudo docker pull ${{ secrets.ECR_REPO_backend }}:latest
