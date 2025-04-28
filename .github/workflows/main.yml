@@ -45,9 +45,11 @@ jobs:
           docker build -t backend ./backend/
           docker build -t frontend ./frontend/
 
-      - name: Scan Docker image for vulnerabilities
+      - name: Scan Docker backend image for vulnerabilities
         run: |
           trivy image --severity CRITICAL,HIGH backend:latest
+      - name: Scan Docker frontend image for vulnerabilities
+        run: |
           trivy image --severity CRITICAL,HIGH frontend:latest
         
       - name: Push image to ECR
