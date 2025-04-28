@@ -10,7 +10,7 @@ COPY . /app
 # Install the dependencies
 RUN pip install --no-cache-dir --upgrade pip
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt && pip install --upgrade setuptools
 
 # Expose port 5000 for Flask
 EXPOSE 5000
