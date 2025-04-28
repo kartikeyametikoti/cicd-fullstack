@@ -14,7 +14,7 @@ function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://3.227.19.133/signup", formData);
+      const response = await axios.post("http://3.227.19.133:5000/signup", formData);
       alert(response.data.message);
       navigate("/login");
     } catch (error) {
