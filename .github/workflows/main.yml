@@ -23,7 +23,7 @@ jobs:
         with:
          role-to-assume: arn:aws:iam::015800953128:role/admin-oidc
          aws-region: ${{ secrets.AWS_REGION }}
-      # - name: getting the commid id as tag
+      # - name: getting the commid id as tag 
       #   run: |
       #      echo "COMMIT_ID=$(git rev-parse --short=6 HEAD)" >> $GITHUB_ENV  
       - name: Login to AWS ECR
