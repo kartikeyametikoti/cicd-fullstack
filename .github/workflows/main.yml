@@ -7,7 +7,7 @@ on:
 # env: 
 #   ECR_REPO_frontend: ${{ secrets.ECR_REPO_frontend }}  
 #   ECR_REPO_backend: ${{ secrets.ECR_REPO_backend }}
-#   IMAGE_TAG: latest
+#   IMAGE_TAG: latest 
 #   ECR_password: ${{ secrets.ECR_password }}
 permissions:
       id-token: write   # ✅ Required for OIDC
