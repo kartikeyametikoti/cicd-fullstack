@@ -23,9 +23,9 @@ jobs:
         with:
          role-to-assume: arn:aws:iam::015800953128:role/admin-oidc
          aws-region: ${{ secrets.AWS_REGION }}
-      - name: getting the commid id as tag
-        run: |
-           echo "COMMIT_ID=$(git rev-parse --short=6 HEAD)" >> $GITHUB_ENV  
+      # - name: getting the commid id as tag
+      #   run: |
+      #      echo "COMMIT_ID=$(git rev-parse --short=6 HEAD)" >> $GITHUB_ENV  
       - name: Login to AWS ECR
         run: | 
            # aws ecr get-login-password --region ${{ secrets.AWS_REGION}} | docker login --username AWS --password-stdin $ECR_password
@@ -36,16 +36,16 @@ jobs:
           docker build -t frontend ./frontend/
       - name: Push image to ECR
         run: |
-          docker tag backend:latest ${{ secrets.ECR_REPO_backend }}:$COMMIT_ID
-          docker tag frontend:latest ${{ secrets.ECR_REPO_frontend }}:$COMMIT_ID
-          docker push ${{ secrets.ECR_REPO_backend }}:$COMMIT_ID
-          docker push ${{ secrets.ECR_REPO_frontend }}:$COMMIT_ID
+          docker tag backend:latest ${{ secrets.ECR_REPO_backend }}:latest
+          docker tag frontend:latest ${{ secrets.ECR_REPO_frontend }}:latest
+          docker push ${{ secrets.ECR_REPO_backend }}:latest
+          docker push ${{ secrets.ECR_REPO_frontend }}:latest
       - name: Deploy to EC2 instance
         env:
           SSH_KEY: ${{ secrets.EC2_SSH_KEY }}  
           SSH_USER: ${{ secrets.SSH_USER }}    
           SSH_IP: ${{ secrets.SSH_IP }}
-          COMMIT_ID: ${{ env.COMMIT_ID }}
+          # COMMIT_ID: ${{ env.COMMIT_ID }}
         run: |
           echo "$SSH_KEY" > kartik-keypair.pem
           sudo chmod 400 kartik-keypair.pem
@@ -59,15 +59,15 @@ jobs:
             sudo docker rm backend || true
             sudo docker stop frontend || true
             sudo docker rm frontend || true
-            sudo docker rmi ${{ secrets.ECR_REPO_backend }}:$COMMIT_ID || true
-            sudo docker rmi ${{ secrets.ECR_REPO_frontend }}:$COMMIT_ID || true
+            sudo docker rmi ${{ secrets.ECR_REPO_backend }}:latest || true
+            sudo docker rmi ${{ secrets.ECR_REPO_frontend }}:latest || true
             sudo docker stop mysql-container || true
             sudo docker rm mysql-container || true
             sudo docker run -d --name mysql-container -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=kartikdatabase  -e MYSQL_USER=kartikuser -e MYSQL_PASSWORD=password -p 3300:3306 mysql:latest || true
             aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin 015800953128.dkr.ecr.us-east-1.amazonaws.com
-            sudo docker pull ${{ secrets.ECR_REPO_backend }}:$COMMIT_ID
-            sudo docker pull ${{ secrets.ECR_REPO_frontend }}:$COMMIT_ID
-            sudo docker run --name=backend -p 5000:5000 -d ${{ secrets.ECR_REPO_backend }}:$COMMIT_ID
-            sudo docker run --name=frontend -p 3000:80 -d ${{ secrets.ECR_REPO_frontend }}:$COMMIT_ID
+            sudo docker pull ${{ secrets.ECR_REPO_backend }}:latest
+            sudo docker pull ${{ secrets.ECR_REPO_frontend }}:latest
+            sudo docker run --name=backend -p 5000:5000 -d ${{ secrets.ECR_REPO_backend }}:latest
+            sudo docker run --name=frontend -p 3000:80 -d ${{ secrets.ECR_REPO_frontend }}:latest
           EOF
 # Update main.yml · kartikeyametikoti/cicd-fullstack@237470a
