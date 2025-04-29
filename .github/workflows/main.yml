@@ -10,7 +10,7 @@ env:
 #   IMAGE_TAG: latest
   # ECR_password: ${{ secrets.ECR_password }} 
 permissions:
-      id-token: write   # ✅ Required for OIDC
+      id-token: write  
       contents: read
 jobs:
   build_image_deploy:
@@ -52,8 +52,12 @@ jobs:
          path: snyk-report.txt
       
       - name: Scan Python dependencies from requirements.txt
-        run: trivy fs --severity CRITICAL,HIGH .
-      
+        run: trivy fs --severity CRITICAL,HIGH . > file-vulnerabilities.txt
+      - name: uploading file scan vulnerabilities trivy
+        uses: actions/upload-artifact@v4
+        with:
+         name: files vulnerabilities
+         path: file-vulnerabilities.txt
       - name: Build Docker image
         run: |
           docker build -t backend ./backend/
@@ -66,7 +70,7 @@ jobs:
       - name: Upload backend report JSON Report
         uses: actions/upload-artifact@v4
         with:
-         name: trivy-bckend-report
+         name: trivy-bckend-image-report
          path: trivy-backend-report.txt
         
       - name: Scan Docker frontend image for vulnerabilities
@@ -76,7 +80,7 @@ jobs:
       - name: frontend-report
         uses: actions/upload-artifact@v4
         with:
-         name: trivy-frontend-report
+         name: trivy-frontend-image-report
          path: trivy-frontend-report.txt
         
       - name: Push image to ECR
