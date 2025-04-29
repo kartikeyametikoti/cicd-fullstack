@@ -40,7 +40,8 @@ jobs:
       - name: Install Snyk and scan dependencies
         run: |
          npm install -g snyk
-         snyk test --json-file-output=snyk-report.json ./frontend || true
+         # snyk test --json-file-output=snyk-report.json ./frontend || true
+         snyk test ./frontend > snyk-report.txt || true
         env:
          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
