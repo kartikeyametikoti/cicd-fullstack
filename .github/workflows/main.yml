@@ -14,7 +14,7 @@ permissions:
       contents: read
 jobs:
   build_image_deploy:
-    runs-on: ubuntu 
+    runs-on: ubuntu:latest
     steps:
       - name: Checkout source code
         uses: actions/checkout@v3
