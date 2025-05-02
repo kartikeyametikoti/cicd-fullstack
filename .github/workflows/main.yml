@@ -41,7 +41,7 @@ jobs:
             wget https://github.com/aquasecurity/trivy/releases/download/v0.62.0/trivy_0.62.0_Linux-64bit.deb
             sudo dpkg -i trivy_0.62.0_Linux-64bit.deb
           else
-            echo "Trivy is already installed.
+            echo "Trivy is already installed."
           fi
       - name: Install Snyk and scan dependencies
         run: |
