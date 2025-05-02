@@ -61,10 +61,10 @@ jobs:
       #   with:
       #    name: files vulnerabilities
       #    path: file-vulnerabilities.txt
-      # - name: Build Docker image
-      #   run: |
-      #     docker build -t backend ./backend/
-      #     docker build -t frontend ./frontend/
+      - name: Build Docker image
+        run: |
+          docker build -t backend ./backend/
+          docker build -t frontend ./frontend/
 
       # - name: Scan Docker backend image for vulnerabilities
       #   run: |
