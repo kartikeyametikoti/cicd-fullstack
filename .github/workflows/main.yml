@@ -28,14 +28,20 @@ jobs:
            echo "COMMIT_ID=$(git rev-parse --short=6 HEAD)" >> $GITHUB_ENV  
       - name: Login to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v1
-      - name: Install Trivy
+      # - name: Install Trivy
+      #   run: |
+      #      sudo apt update -y
+      #      wget https://github.com/aquasecurity/trivy/releases/download/v0.62.0/trivy_0.62.0_Linux-64bit.deb || true
+      #      sudo dpkg -i trivy_0.62.0_Linux-64bit.deb || true
+      - name: Install Trivy if not present
         run: |
-           sudo apt update -y
-           # wget https://github.com/aquasecurity/trivy/releases/latest/download/trivy_0.61.1_Linux-64bit.deb || true
-           # sudo dpkg -i trivy_0.61.1_Linux-64bit.deb || true
-           wget https://github.com/aquasecurity/trivy/releases/download/v0.62.0/trivy_0.62.0_Linux-64bit.deb || true
-           sudo dpkg -i trivy_0.62.0_Linux-64bit.deb || true
-     
+          if ! command -v trivy &> /dev/null; then
+            echo "Trivy not found. Installing..."
+            sudo apt update -y
+            wget https://github.com/aquasecurity/trivy/releases/download/v0.62.0/trivy_0.62.0_Linux-64bit.deb
+            sudo dpkg -i trivy_0.62.0_Linux-64bit.deb
+          else
+            echo "Trivy is already installed.
       - name: Install Snyk and scan dependencies
         run: |
          npm install -g snyk
