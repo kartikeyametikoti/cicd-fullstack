@@ -26,38 +26,41 @@ jobs:
       # - name: getting the commid id as tag 
       #   run: |
       #      echo "COMMIT_ID=$(git rev-parse --short=6 HEAD)" >> $GITHUB_ENV  
-      - name: Login to AWS ECR
-        run: | 
-           # aws ecr get-login-password --region ${{ secrets.AWS_REGION}} | docker login --username AWS --password-stdin $ECR_password
-           aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 015800953128.dkr.ecr.us-east-1.amazonaws.com
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v1
       
-      - name: Install Trivy
-        run: |
-           sudo apt-get update -y
-           wget https://github.com/aquasecurity/trivy/releases/latest/download/trivy_0.61.1_Linux-64bit.deb
-           sudo dpkg -i trivy_0.61.1_Linux-64bit.deb
+      # - name: Login to AWS ECR
+      #   run: | 
+      #      # aws ecr get-login-password --region ${{ secrets.AWS_REGION}} | docker login --username AWS --password-stdin $ECR_password
+      #      aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 015800953128.dkr.ecr.us-east-1.amazonaws.com
+      
+      # - name: Install Trivy
+      #   run: |
+      #      sudo apt-get update -y
+      #      wget https://github.com/aquasecurity/trivy/releases/latest/download/trivy_0.61.1_Linux-64bit.deb
+      #      sudo dpkg -i trivy_0.61.1_Linux-64bit.deb
      
-      - name: Install Snyk and scan dependencies
-        run: |
-         npm install -g snyk
-         # snyk test --json-file-output=snyk-report.json ./frontend || true
-         snyk test ./frontend > snyk-report.txt || true
-        env:
-         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      # - name: Install Snyk and scan dependencies
+      #   run: |
+      #    npm install -g snyk
+      #    # snyk test --json-file-output=snyk-report.json ./frontend || true
+      #    snyk test ./frontend > snyk-report.txt || true
+      #   env:
+      #    SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
-      - name: Upload Snyk JSON Report
-        uses: actions/upload-artifact@v4
-        with:
-         name: snyk-json-report
-         path: snyk-report.txt
+      # - name: Upload Snyk JSON Report
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #    name: snyk-json-report
+      #    path: snyk-report.txt
       
-      - name: Scan Python dependencies from requirements.txt
-        run: trivy fs --severity CRITICAL,HIGH . > file-vulnerabilities.txt
-      - name: uploading file scan vulnerabilities trivy
-        uses: actions/upload-artifact@v4
-        with:
-         name: files vulnerabilities
-         path: file-vulnerabilities.txt
+      # - name: Scan Python dependencies from requirements.txt
+      #   run: trivy fs --severity CRITICAL,HIGH . > file-vulnerabilities.txt
+      # - name: uploading file scan vulnerabilities trivy
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #    name: files vulnerabilities
+      #    path: file-vulnerabilities.txt
       - name: Build Docker image
         run: |
           docker build -t backend ./backend/
