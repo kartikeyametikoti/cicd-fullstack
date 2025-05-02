@@ -11,7 +11,7 @@ env:
   # ECR_password: ${{ secrets.ECR_password }} 
 permissions:
       id-token: write  
-      contents: read
+      contents: read 
 jobs:
   build_image_deploy:
     runs-on: ubuntu-latest
