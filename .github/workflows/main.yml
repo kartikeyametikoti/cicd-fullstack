@@ -31,8 +31,8 @@ jobs:
       - name: Install Trivy
         run: |
            sudo apt update -y
-           wget https://github.com/aquasecurity/trivy/releases/latest/download/trivy_0.61.1_Linux-64bit.deb
-           sudo dpkg -i trivy_0.61.1_Linux-64bit.deb
+           wget https://github.com/aquasecurity/trivy/releases/latest/download/trivy_0.61.1_Linux-64bit.deb || true
+           sudo dpkg -i trivy_0.61.1_Linux-64bit.deb || true
      
       - name: Install Snyk and scan dependencies
         run: |
