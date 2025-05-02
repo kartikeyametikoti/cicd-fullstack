@@ -42,7 +42,7 @@ jobs:
             sudo dpkg -i trivy_0.62.0_Linux-64bit.deb
           else
             echo "Trivy is already installed."
-          fi
+          fi 
       - name: Install Snyk and scan dependencies
         run: |
          npm install -g snyk
