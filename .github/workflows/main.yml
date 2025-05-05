@@ -33,16 +33,28 @@ jobs:
       #      sudo apt update -y
       #      wget https://github.com/aquasecurity/trivy/releases/download/v0.62.0/trivy_0.62.0_Linux-64bit.deb || true
       #      sudo dpkg -i trivy_0.62.0_Linux-64bit.deb || true
-      - name: Install Trivy if not present
-        run: |
-          if ! command -v trivy &> /dev/null; then
-            echo "Trivy not found. Installing..."
-            sudo apt update -y
-            wget https://github.com/aquasecurity/trivy/releases/download/v0.62.0/trivy_0.62.0_Linux-64bit.deb
-            sudo dpkg -i trivy_0.62.0_Linux-64bit.deb
-          else
-            echo "Trivy is already installed."
-          fi 
+      - name: Trivy Scan
+        uses: aquasecurity/trivy-action@master
+        with:
+           scan-type: 'fs'
+           scan-ref: '.'
+           format: 'table' 
+           output: 'trivy-fs-report.txt'
+      - name: Upload trivy fs report
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-filse-scan-report
+          path: trivy-fs-report.txt
+      # - name: Install Trivy if not present
+      #   run: |
+      #     if ! command -v trivy &> /dev/null; then
+      #       echo "Trivy not found. Installing..."
+      #       sudo apt update -y
+      #       wget https://github.com/aquasecurity/trivy/releases/download/v0.62.0/trivy_0.62.0_Linux-64bit.deb
+      #       sudo dpkg -i trivy_0.62.0_Linux-64bit.deb
+      #     else
+      #       echo "Trivy is already installed."
+      #     fi 
       - name: Install Snyk and scan dependencies
         run: |
          npm install -g snyk
@@ -68,11 +80,15 @@ jobs:
         run: |
           docker build -t backend ./backend/
           docker build -t frontend ./frontend/
-
-      - name: Scan Docker backend image for vulnerabilities
-        run: |
-          # trivy image --severity CRITICAL,HIGH --format json --output trivy-backend-report.json backend:latest
-          trivy image --severity CRITICAL,HIGH backend:latest > trivy-backend-report.txt
+      - name: Scan Docker image
+        uses: aquasecurity/trivy-action@master
+        with:
+         scan-type: 'image'
+         image-ref: 'backend:latest'
+      # - name: Scan Docker backend image for vulnerabilities
+      #   run: |
+      #     # trivy image --severity CRITICAL,HIGH --format json --output trivy-backend-report.json backend:latest
+      #     trivy image --severity CRITICAL,HIGH backend:latest > trivy-backend-report.txt
       - name: Upload backend report JSON Report
         uses: actions/upload-artifact@v4
         with:
