@@ -80,11 +80,13 @@ jobs:
         run: |
           docker build -t backend ./backend/
           docker build -t frontend ./frontend/
-      - name: Scan Docker image
+      - name: Scan backend Docker image
         uses: aquasecurity/trivy-action@master
         with:
          scan-type: 'image'
          image-ref: 'backend:latest'
+         format: 'table' 
+         output: 'backend-image-report.txt'
       # - name: Scan Docker backend image for vulnerabilities
       #   run: |
       #     # trivy image --severity CRITICAL,HIGH --format json --output trivy-backend-report.json backend:latest
@@ -93,17 +95,24 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
          name: trivy-bckend-image-report
-         path: trivy-backend-report.txt
+         path: backend-image-report.txt
         
-      - name: Scan Docker frontend image for vulnerabilities
-        run: |
-          # trivy image --severity CRITICAL,HIGH --format json --output trivy-frontend-report.json frontend:latest
-          trivy image --severity CRITICAL,HIGH frontend:latest > trivy-frontend-report.txt
+      # - name: Scan Docker frontend image for vulnerabilities
+      #   run: |
+      #     # trivy image --severity CRITICAL,HIGH --format json --output trivy-frontend-report.json frontend:latest
+      #     trivy image --severity CRITICAL,HIGH frontend:latest > trivy-frontend-report.txt
+      - name: Scan frontend Docker image
+        uses: aquasecurity/trivy-action@master
+        with:
+         scan-type: 'image'
+         image-ref: 'frontend:latest'
+         format: 'table' 
+         output: 'frontend-image-report.txt'
       - name: frontend-report
         uses: actions/upload-artifact@v4
         with:
          name: trivy-frontend-image-report
-         path: trivy-frontend-report.txt
+         path: frontend-image-report.txt
         
       - name: Push image to ECR
         run: |
