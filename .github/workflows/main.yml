@@ -21,7 +21,7 @@ jobs:
       - name: Configure AWS credentials using OIDC
         uses: aws-actions/configure-aws-credentials@v2
         with:
-         role-to-assume: arn:aws:iam::015800953128:role/admin-oidc
+         role-to-assume: arn:aws:iam::015800953128:role/new-role-checking-oidc-github
          aws-region: ${{ secrets.AWS_REGION }}
       - name: getting the commid id as tag 
         run: |
