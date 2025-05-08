@@ -41,7 +41,7 @@ jobs:
       #     args: --json --output=semgrep-report.json --max-target-bytes 5000000 --verbose
 
       - name: Run Semgrep and output JSON
-        uses: returntocorp/semgrep-action@v1
+        uses: semgrep/semgrep-action@v1
         with:
          config: auto
          args: --json --output=semgrep-report.json --max-target-bytes=5000000 --verbose
