@@ -44,20 +44,32 @@ jobs:
       #     config: 'auto'
       #     args: --json --output=semgrep-report.json --max-target-bytes 5000000 --verbose
 
+      # - name: Run Semgrep scan
+      #   uses: semgrep/semgrep-action@v1
+      #   with:
+      #     config: 'auto'  # Or specify a custom config
+      #     args: '--max-target-bytes=5000000'
+
+      # - name: Upload Semgrep report as artifact
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: semgrep-application-vulnerability-report
+      #     path: semgrep-report.json
+      - name: Install Semgrep
+        run: |
+          curl -sSL https://semgrep.dev/install | bash
+          
       - name: Run Semgrep scan
-        uses: semgrep/semgrep-action@v1
-        with:
-          config: 'auto'  # Or specify a custom config
-          args: '--max-target-bytes=5000000'
+        run: |
+          semgrep --config auto --json --output=semgrep-report.json --max-target-bytes=5000000 --verbose
 
       - name: Upload Semgrep report as artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
-          name: semgrep-application-vulnerability-report
+          name: semgrep-report
           path: semgrep-report.json
       
-      
-      
+
       - name: Trivy Scan
         uses: aquasecurity/trivy-action@master
         with:
