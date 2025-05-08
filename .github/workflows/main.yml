@@ -28,6 +28,10 @@ jobs:
            echo "COMMIT_ID=$(git rev-parse --short=6 HEAD)" >> $GITHUB_ENV  
       - name: Login to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Login to Amazon ECR
+        run: docker version
+        
       # - name: Install Trivy
       #   run: |
       #      sudo apt update -y
