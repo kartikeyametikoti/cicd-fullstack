@@ -38,7 +38,8 @@ jobs:
         uses: returntocorp/semgrep-action@v1
         with:
           config: 'auto'
-          args: --verbose --json --output=semgrep-report.json --max-target-bytes 5000000
+          args: --json --output=semgrep-report.json --max-target-bytes 5000000 --verbose
+          # args: --verbose --json --output=semgrep-report.json --max-target-bytes 5000000
 
       - name: Upload Semgrep report as artifact
         uses: actions/upload-artifact@v4
