@@ -57,7 +57,9 @@ jobs:
       #     path: semgrep-report.json
       - name: Install Semgrep
         run: |
-          curl -sSL https://semgrep.dev/install | bash
+           curl -sSL https://github.com/returntocorp/semgrep/releases/download/v1.24.0/semgrep-linux-amd64 -o semgrep
+           chmod +x semgrep
+           sudo mv semgrep /usr/local/bin/semgrep
           
       - name: Run Semgrep scan
         run: |
