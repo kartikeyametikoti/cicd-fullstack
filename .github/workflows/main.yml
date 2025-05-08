@@ -33,6 +33,22 @@ jobs:
       #      sudo apt update -y
       #      wget https://github.com/aquasecurity/trivy/releases/download/v0.62.0/trivy_0.62.0_Linux-64bit.deb || true
       #      sudo dpkg -i trivy_0.62.0_Linux-64bit.deb || true
+      
+      - name: Run Semgrep and output JSON
+        uses: returntocorp/semgrep-action@v1
+        with:
+          config: 'auto'
+          output: semgrep-report.json
+          output-format: json
+
+      - name: Upload Semgrep report as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: semgrep-application-vulnerability-report
+          path: semgrep-report.json
+      
+      
+      
       - name: Trivy Scan
         uses: aquasecurity/trivy-action@master
         with:
