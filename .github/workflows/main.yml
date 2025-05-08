@@ -40,6 +40,9 @@ jobs:
           config: 'auto'
           output: semgrep-report.json
           output-format: json
+          args: >
+           --verbose
+           --max-target-bytes 5000000 
 
       - name: Upload Semgrep report as artifact
         uses: actions/upload-artifact@v4
