@@ -55,21 +55,22 @@ jobs:
       #   with:
       #     name: semgrep-application-vulnerability-report
       #     path: semgrep-report.json
-      - name: Install Semgrep
-        run: |
-           curl -sSL https://github.com/returntocorp/semgrep/releases/download/v1.24.0/semgrep-linux-amd64 -o semgrep
-           chmod +x semgrep
-           sudo mv semgrep /usr/local/bin/semgrep
-          
-      - name: Run Semgrep scan
-        run: |
-          semgrep --config auto --json --output=semgrep-report.json --max-target-bytes=5000000 --verbose
+       
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+         python-version: '3.x'
 
+      - name: Install Semgrep
+        run: pip install semgrep
+
+      - name: Run Semgrep scan
+        run: semgrep --config auto --json --output semgrep-report.json
       - name: Upload Semgrep report as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: semgrep-report
-          path: semgrep-report.json
+         name: semgrep-report
+         path: semgrep-report.json
       
 
       - name: Trivy Scan
