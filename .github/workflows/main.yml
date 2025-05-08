@@ -65,7 +65,11 @@ jobs:
         run: pip install semgrep
 
       - name: Run Semgrep scan
-        run: semgrep --config auto --json --output semgrep-report.json
+        run: semgrep --config auto --json --output semgrep-raw-report.json
+        
+      - name: Format JSON report (pretty-print)
+        run: jq . semgrep-raw-report.json > semgrep-report.json
+
       - name: Upload Semgrep report as artifact
         uses: actions/upload-artifact@v4
         with:
