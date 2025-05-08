@@ -34,12 +34,18 @@ jobs:
       #      wget https://github.com/aquasecurity/trivy/releases/download/v0.62.0/trivy_0.62.0_Linux-64bit.deb || true
       #      sudo dpkg -i trivy_0.62.0_Linux-64bit.deb || true
       
+      # - name: Run Semgrep and output JSON
+      #   uses: returntocorp/semgrep-action@v1
+      #   with:
+      #     config: 'auto'
+      #     args: --json --output=semgrep-report.json --max-target-bytes 5000000 --verbose
+
       - name: Run Semgrep and output JSON
         uses: returntocorp/semgrep-action@v1
         with:
-          config: 'auto'
-          args: --json --output=semgrep-report.json --max-target-bytes 5000000 --verbose
-          # args: --verbose --json --output=semgrep-report.json --max-target-bytes 5000000
+         config: auto
+         args: --json --output=semgrep-report.json --max-target-bytes=5000000 --verbose
+
 
       - name: Upload Semgrep report as artifact
         uses: actions/upload-artifact@v4
