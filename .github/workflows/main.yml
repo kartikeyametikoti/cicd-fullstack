@@ -64,7 +64,7 @@ jobs:
           semgrep --config auto --json --output=semgrep-report.json --max-target-bytes=5000000 --verbose
 
       - name: Upload Semgrep report as artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: semgrep-report
           path: semgrep-report.json
