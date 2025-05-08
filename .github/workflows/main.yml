@@ -40,12 +40,11 @@ jobs:
       #     config: 'auto'
       #     args: --json --output=semgrep-report.json --max-target-bytes 5000000 --verbose
 
-      - name: Run Semgrep and output JSON
+      - name: Run Semgrep scan
         uses: semgrep/semgrep-action@v1
         with:
-         config: auto
-         args: --json --output=semgrep-report.json --max-target-bytes=5000000 --verbose
-
+          config: 'auto'  # Or specify a custom config
+          args: '--json --output=semgrep-report.json --max-target-bytes=5000000 --verbose'
 
       - name: Upload Semgrep report as artifact
         uses: actions/upload-artifact@v4
