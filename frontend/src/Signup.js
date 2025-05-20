@@ -21,7 +21,7 @@ function Signup() {
       alert(error.response.data.message);
     }
   };
-
+ 
   return (
     <div className="auth-container">
       <div className="auth-box">
