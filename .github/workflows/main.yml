@@ -2,8 +2,8 @@ name: cicd-ec2
 
 on:
   push: 
-    branches:
-      - main
+    paths:
+      - 'frontend/src/Signup.js'
 env: 
   ECR_REPO_frontend: ${{ secrets.ECR_REPO_frontend }}  
   ECR_REPO_backend: ${{ secrets.ECR_REPO_backend }}
