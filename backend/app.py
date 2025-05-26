@@ -11,10 +11,15 @@ bcrypt = Bcrypt(app)
 
 # Database Configuration (Replace with your AWS RDS credentials)
 # DB_HOST = "172.17.0.2"
-DB_HOST = "172.31.5.44"
-DB_USER = "kartikuser"
-DB_PASSWORD = "password"
-DB_NAME = "kartikdatabase"
+# DB_HOST = "172.31.5.44"
+# DB_USER = "kartikuser"
+# DB_PASSWORD = "password"
+# DB_NAME = "kartikdatabase"
+
+DB_HOST = os.environ.get("DB_HOST")
+DB_USER = os.environ.get("DB_USER")
+DB_PASSWORD = os.environ.get("DB_PASSWORD")
+DB_NAME = os.environ.get("DB_NAME")
 
 app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
