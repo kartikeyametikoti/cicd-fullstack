@@ -5,7 +5,7 @@ import "./styles.css"; // Import the CSS file
 
 function Signup() {
   const [formData, setFormData] = useState({ username: "", email: "", password: "" });
-  const navigate = useNavigate();
+  const navigate = useNavigate(); 
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
