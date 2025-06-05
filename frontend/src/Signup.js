@@ -21,7 +21,7 @@ function Signup() {
     } catch (error) {
       alert(error.response.data.message);
     }
-  };
+  }; 
  
   return (
     <div className="auth-container">
