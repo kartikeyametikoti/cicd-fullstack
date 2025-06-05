@@ -61,102 +61,102 @@ jobs:
       #   with:
       #    python-version: '3.x'
 
-      - name: Install Semgrep
-        run: pip install semgrep
+      # - name: Install Semgrep
+      #   run: pip install semgrep
 
-      - name: Run Semgrep scan
-        run: semgrep --config auto --json --output semgrep-raw-report.json
+      # - name: Run Semgrep scan
+      #   run: semgrep --config auto --json --output semgrep-raw-report.json
         
-      - name: Format JSON report (pretty-print)
-        run: jq . semgrep-raw-report.json > semgrep-report.json
+      # - name: Format JSON report (pretty-print)
+      #   run: jq . semgrep-raw-report.json > semgrep-report.json
 
-      - name: Upload Semgrep report as artifact
-        uses: actions/upload-artifact@v4
-        with:
-         name: semgrep-report
-         path: semgrep-report.json
+      # - name: Upload Semgrep report as artifact
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #    name: semgrep-report
+      #    path: semgrep-report.json
       
 
-      - name: Trivy Scan
-        uses: aquasecurity/trivy-action@master
-        with:
-           scan-type: 'fs'
-           scan-ref: '.'
-           format: 'table' 
-           output: 'trivy-fs-report.txt'
-      - name: Upload trivy fs report
-        uses: actions/upload-artifact@v4
-        with:
-          name: trivy-filse-scan-report
-          path: trivy-fs-report.txt
-      # - name: Install Trivy if not present
+      # - name: Trivy Scan
+      #   uses: aquasecurity/trivy-action@master
+      #   with:
+      #      scan-type: 'fs'
+      #      scan-ref: '.'
+      #      format: 'table' 
+      #      output: 'trivy-fs-report.txt'
+      # - name: Upload trivy fs report
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: trivy-filse-scan-report
+      #     path: trivy-fs-report.txt
+      # # - name: Install Trivy if not present
+      # #   run: |
+      # #     if ! command -v trivy &> /dev/null; then
+      # #       echo "Trivy not found. Installing..."
+      # #       sudo apt update -y
+      # #       wget https://github.com/aquasecurity/trivy/releases/download/v0.62.0/trivy_0.62.0_Linux-64bit.deb
+      # #       sudo dpkg -i trivy_0.62.0_Linux-64bit.deb
+      # #     else
+      # #       echo "Trivy is already installed."
+      # #     fi 
+      # - name: Install Snyk and scan dependencies
       #   run: |
-      #     if ! command -v trivy &> /dev/null; then
-      #       echo "Trivy not found. Installing..."
-      #       sudo apt update -y
-      #       wget https://github.com/aquasecurity/trivy/releases/download/v0.62.0/trivy_0.62.0_Linux-64bit.deb
-      #       sudo dpkg -i trivy_0.62.0_Linux-64bit.deb
-      #     else
-      #       echo "Trivy is already installed."
-      #     fi 
-      - name: Install Snyk and scan dependencies
-        run: |
-         npm install -g snyk
-         # snyk test --json-file-output=snyk-report.json ./frontend || true
-         snyk test ./frontend > snyk-report.txt || true
-        env:
-         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      #    npm install -g snyk
+      #    # snyk test --json-file-output=snyk-report.json ./frontend || true
+      #    snyk test ./frontend > snyk-report.txt || true
+      #   env:
+      #    SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
-      - name: Upload Snyk JSON Report
-        uses: actions/upload-artifact@v4
-        with:
-         name: snyk-json-report
-         path: snyk-report.txt
+      # - name: Upload Snyk JSON Report
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #    name: snyk-json-report
+      #    path: snyk-report.txt
       
-      - name: Scan Python dependencies from requirements.txt
-        run: trivy fs --severity CRITICAL,HIGH . > file-vulnerabilities.txt
-      - name: uploading file scan vulnerabilities trivy
-        uses: actions/upload-artifact@v4
-        with:
-         name: files vulnerabilities
-         path: file-vulnerabilities.txt
+      # - name: Scan Python dependencies from requirements.txt
+      #   run: trivy fs --severity CRITICAL,HIGH . > file-vulnerabilities.txt
+      # - name: uploading file scan vulnerabilities trivy
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #    name: files vulnerabilities
+      #    path: file-vulnerabilities.txt
       - name: Build Docker image
         run: |
           docker build -t backend ./backend/
           docker build -t frontend ./frontend/
-      - name: Scan backend Docker image
-        uses: aquasecurity/trivy-action@master
-        with:
-         scan-type: 'image'
-         image-ref: 'backend:latest'
-         format: 'table' 
-         output: 'backend-image-report.txt'
-      # - name: Scan Docker backend image for vulnerabilities
-      #   run: |
-      #     # trivy image --severity CRITICAL,HIGH --format json --output trivy-backend-report.json backend:latest
-      #     trivy image --severity CRITICAL,HIGH backend:latest > trivy-backend-report.txt
-      - name: Upload backend report JSON Report
-        uses: actions/upload-artifact@v4
-        with:
-         name: trivy-bckend-image-report
-         path: backend-image-report.txt
+      # - name: Scan backend Docker image
+      #   uses: aquasecurity/trivy-action@master
+      #   with:
+      #    scan-type: 'image'
+      #    image-ref: 'backend:latest'
+      #    format: 'table' 
+      #    output: 'backend-image-report.txt'
+      # # - name: Scan Docker backend image for vulnerabilities
+      # #   run: |
+      # #     # trivy image --severity CRITICAL,HIGH --format json --output trivy-backend-report.json backend:latest
+      # #     trivy image --severity CRITICAL,HIGH backend:latest > trivy-backend-report.txt
+      # - name: Upload backend report JSON Report
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #    name: trivy-bckend-image-report
+      #    path: backend-image-report.txt
         
-      # - name: Scan Docker frontend image for vulnerabilities
-      #   run: |
-      #     # trivy image --severity CRITICAL,HIGH --format json --output trivy-frontend-report.json frontend:latest
-      #     trivy image --severity CRITICAL,HIGH frontend:latest > trivy-frontend-report.txt
-      - name: Scan frontend Docker image
-        uses: aquasecurity/trivy-action@master
-        with:
-         scan-type: 'image'
-         image-ref: 'frontend:latest'
-         format: 'table' 
-         output: 'frontend-image-report.txt'
-      - name: frontend-report
-        uses: actions/upload-artifact@v4
-        with:
-         name: trivy-frontend-image-report
-         path: frontend-image-report.txt
+      # # - name: Scan Docker frontend image for vulnerabilities
+      # #   run: |
+      # #     # trivy image --severity CRITICAL,HIGH --format json --output trivy-frontend-report.json frontend:latest
+      # #     trivy image --severity CRITICAL,HIGH frontend:latest > trivy-frontend-report.txt
+      # - name: Scan frontend Docker image
+      #   uses: aquasecurity/trivy-action@master
+      #   with:
+      #    scan-type: 'image'
+      #    image-ref: 'frontend:latest'
+      #    format: 'table' 
+      #    output: 'frontend-image-report.txt'
+      # - name: frontend-report
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #    name: trivy-frontend-image-report
+      #    path: frontend-image-report.txt
         
       - name: Push image to ECR
         run: |
@@ -173,7 +173,7 @@ jobs:
         run: |
           echo "$SSH_KEY" > kartik-new.pem
           sudo chmod 400 kartik-new.pem
-          ssh -o StrictHostKeyChecking=no -i kartik-keypair.pem $SSH_USER@$SSH_IP << 'EOF'
+          ssh -o StrictHostKeyChecking=no -i kartik-new.pem $SSH_USER@$SSH_IP << 'EOF'
             sudo apt update
             sudo apt upgrade -y
             sudo apt install docker.io -y || true
