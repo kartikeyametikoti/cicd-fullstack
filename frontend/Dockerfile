@@ -13,8 +13,8 @@ RUN npm ci --omit=dev
 # Copy the rest of the application files
 COPY . .
 
-ARG REACT_APP_BACKEND_URL
-ENV REACT_APP_BACKEND_URL=$REACT_APP_BACKEND_URL
+ARG BACKEND_URL
+ENV REACT_APP_BACKEND_URL=$BACKEND_URL
 # Build the React ap
 RUN npm run build
 
