@@ -14,8 +14,8 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // const response = await axios.post("http://3.227.19.133:5000/login", formData);
-      const response = await axios.post("http://backend-load-ecs-1073322385.us-east-1.elb.amazonaws.com/login", formData);
+      const response = await axios.post("http://54.221.123.218:5000/login", formData);
+      // const response = await axios.post("http://backend-load-ecs-1073322385.us-east-1.elb.amazonaws.com/login", formData);
       // const response = await axios.post("http://backend-loadbalancer-ecs-1656454160.us-east-1.elb.amazonaws.com/login", formData);
       alert(response.data.message);
     } catch (error) {
