@@ -195,6 +195,10 @@ jobs:
             sudo docker pull ${{ secrets.ECR_REPO_frontend }}:latest
             sudo docker run --name=backend --network kartik-network --restart always -p 5000:5000 -e DB_HOST=mysql-container -e DB_PASSWORD=password -e DB_NAME=kartikdatabase  -e DB_USER=kartikuser -d ${{ secrets.ECR_REPO_backend }}:latest
             sudo docker run --name=frontend --restart always -p 3000:80 -d ${{ secrets.ECR_REPO_frontend }}:latest
+            
+            # if we want to send your container logs to cloudwatch then we can use this flag called --log -driver 
+            # sudo docker run -d   --name backend   --log-driver=awslogs   --log-opt awslogs-region=us-east-1   --log-opt awslogs-group=/myapp/backend   --log-opt awslogs-create-group=true -e DB_HOST=mysql-container -e DB_PASSWORD=password -e DB_NAME=kartikdatabase  -e DB_USER=kartikuser -p 5000:5000 --network kartik-network 364700382033.dkr.ecr.us-east-1.amazonaws.com/backend-repo:latest
+            
             sudo docker ps
           EOF
 # # Update main.yml · kartikeyametikoti/cicd-fullstack@237470a
