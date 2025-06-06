@@ -1,5 +1,5 @@
 name: cicd-ec2
-
+ 
 on:
   push: 
     paths:
