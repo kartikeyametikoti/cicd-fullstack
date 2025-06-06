@@ -15,6 +15,8 @@ COPY . .
 
 ARG BACKEND_URL
 ENV REACT_APP_BACKEND_URL=$BACKEND_URL
+
+# HERE ENV should be started with REACT_APP only other than that it does not work 
 # Build the React ap
 RUN npm run build
 
