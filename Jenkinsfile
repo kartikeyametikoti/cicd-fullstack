@@ -23,8 +23,8 @@ pipeline {
               
         stage('Login to ECR') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'aws-credentials', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
-             sh '''
+                withCredentials([usernamePassword(credentialsId: '7c3d66f0-128e-438b-87f9-513485b3ec40', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
+        sh '''
                 aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $Ecr_password 
                 '''
              }
@@ -38,8 +38,7 @@ pipeline {
         }
         stage('Deploy to EC2') {
            steps {
-        withCredentials([string(credentialsId: 'image-tag', variable: 'image-tag'), string(credentialsId: 'backend-image-uri', variable: 'backend-image-uri'), string(credentialsId: 'frotnend-image-uri', variable: 'frontend-image-uri'), sshUserPrivateKey(credentialsId: 'ssh-credentials', keyFileVariable: 'ssh_key', usernameVariable: 'ssh_user')]) {
-    // some block
+        withCredentials([string(credentialsId: 'image-tag', variable: 'image-tag'), string(credentialsId: 'backend-image-uri', variable: 'backend-image-uri'), string(credentialsId: 'frotnend-image-uri', variable: 'frontend-image-uri'), sshUserPrivateKey(credentialsId: 'd0e39f12-5b65-418a-8262-6a41e75e109e', keyFileVariable: 'ssh_key', usernameVariable: 'ssh_user')]) {
             sh """
             ssh -o StrictHostKeyChecking=no -i $ssh_key $ssh_user@$ssh_ip << EOF
             sudo apt update
