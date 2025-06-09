@@ -12,7 +12,7 @@ pipeline {
             steps {
                 git branch: 'main', credentialsId: '49a93094-22fe-41cc-ba8d-32d7cf42301d', url: 'https://github.com/kartikeyametikoti/cicd-fullstack'
             }
-        }
+        } 
         stage('building image'){
             steps{
                 sh 'docker build -t $backend_image:$image_tag ./backend'
