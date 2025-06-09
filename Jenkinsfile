@@ -7,7 +7,7 @@ pipeline {
         Ecr_password=credentials('password')
         ssh_ip="44.202.240.160"   
      } 
-    stages {
+    stages { 
         stage('Clean Old Workspace') {
       steps {
         cleanWs() // Deletes leftovers from earlier builds
