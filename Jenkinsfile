@@ -7,7 +7,7 @@ pipeline {
         Ecr_password=credentials('password')
         ssh_ip="44.202.240.160"   
      }
-    stages {
+    stages { 
         stage('checking out the code ') {
             steps {
                 git branch: 'main', credentialsId: '49a93094-22fe-41cc-ba8d-32d7cf42301d', url: 'https://github.com/kartikeyametikoti/cicd-fullstack'
