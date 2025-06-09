@@ -9,6 +9,9 @@ pipeline {
      }
     stages { 
         stage('checking out the code ') {
+            when{
+            branch 'main'
+            }
             steps {
                 git branch: 'main', credentialsId: '49a93094-22fe-41cc-ba8d-32d7cf42301d', url: 'https://github.com/kartikeyametikoti/cicd-fullstack'
             }
