@@ -5,7 +5,7 @@ pipeline {
         backend_image=credentials('backend-image-uri')
         frontend_image=credentials('frotnend-image-uri')
         Ecr_password=credentials('password')  
-        ssh_ip="54.234.51.175"    
+        ssh_ip="54.234.51.175"     
      }
     stages { 
         stage('checking out the code ') {
