@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent any 
     environment{
         image_tag=credentials('image-tag')
         backend_image=credentials('backend-image-uri')
