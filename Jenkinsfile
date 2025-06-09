@@ -4,7 +4,7 @@ pipeline {
         image_tag=credentials('image-tag')
         backend_image=credentials('backend-image-uri')
         frontend_image=credentials('frotnend-image-uri')
-        Ecr_password=credentials('password')
+        Ecr_password=credentials('password') 
         ssh_ip="54.234.51.175"    
      }
     stages { 
