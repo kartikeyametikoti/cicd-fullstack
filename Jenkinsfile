@@ -11,7 +11,7 @@ pipeline {
         stage('Clean Old Workspace') {
       steps {
         cleanWs() // Deletes leftovers from earlier builds
-      }
+      } 
     } 
         stage('checking out the code ') {
             steps {
