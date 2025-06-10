@@ -1,6 +1,6 @@
-// @Library('mypipeline@main') _
-// def envvars = dev_env()
-// mypipeline(envvars)
+@Library('mypipeline@main') _
+def envvars = dev_env()
+mypipeline(envvars)
 
 
 
