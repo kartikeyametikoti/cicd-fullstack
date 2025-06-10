@@ -1,5 +1,5 @@
 @Library('mypipeline@main') _
-pipeline()
+mypipeline()
 // pipeline {
 //     agent any 
 //     environment{
