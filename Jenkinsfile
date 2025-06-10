@@ -78,7 +78,7 @@ EOF
         }
     }
 }
-          post {
+        post {
           always {
           cleanWs()
       }
