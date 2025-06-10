@@ -78,9 +78,9 @@ EOF
         }
     }
 }
-         post {
-         always {
-        cleanWs()
+          post {
+          always {
+          cleanWs()
       }
     }     
     }
