@@ -1,11 +1,16 @@
-def call(){ 
+def call(envvars){ 
 pipeline {
     agent any 
     environment{
-        image_tag=credentials('image-tag')
-        backend_image=credentials('backend-image-uri')
-        frontend_image=credentials('frotnend-image-uri')
-        Ecr_password=credentials('password')
+        // image_tag=credentials('image-tag')
+        // backend_image=credentials('backend-image-uri')
+        // frontend_image=credentials('frotnend-image-uri')
+        // Ecr_password=credentials('password')
+        // ssh_ip="44.202.240.160"   
+        image_tag=envvars.image_tag
+        backend_image=envvars.backend_image_uri
+        frontend_image=envvars.frotnend_image_uri
+        Ecr_password=envvars.password
         ssh_ip="44.202.240.160"   
      }     
     stages { 
