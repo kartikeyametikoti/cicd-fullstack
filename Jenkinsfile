@@ -6,7 +6,7 @@ pipeline {
         frontend_image=credentials('frotnend-image-uri')
         Ecr_password=credentials('password')
         ssh_ip="44.202.240.160"   
-     }  
+     }   
     stages { 
         stage('Clean Old Workspace') {
       steps {
