@@ -5,13 +5,16 @@ pipeline {
         // image_tag=credentials('image-tag')
         // backend_image=credentials('backend-image-uri')
         // frontend_image=credentials('frotnend-image-uri')
-        // Ecr_password=credentials('password')
+        Ecr_password=credentials('password')
         // ssh_ip="44.202.240.160"   
         image_tag=envvars.image_tag
         backend_image=envvars.backend_image_uri
         frontend_image=envvars.frotnend_image_uri
-        Ecr_password=envvars.password
-        ssh_ip="44.202.240.160"   
+        // Ecr_password=envvars.password
+        // dev_ssh_ip="44.202.240.160" 
+        ssh_ip=envvars.ssh_ip
+        ssh_key=envvars.ssh_key
+        ssh_user=envvars.ssh_user
      }     
     stages { 
         stage('Clean Old Workspace') {
@@ -52,8 +55,8 @@ pipeline {
                 branch 'main'
             }
            steps {
-        withCredentials([string(credentialsId: 'image-tag', variable: 'image-tag'), string(credentialsId: 'backend-image-uri', variable: 'backend-image-uri'), string(credentialsId: 'frotnend-image-uri', variable: 'frontend-image-uri'), sshUserPrivateKey(credentialsId: 'd0e39f12-5b65-418a-8262-6a41e75e109e', keyFileVariable: 'ssh_key', usernameVariable: 'ssh_user')]) {
-            sh """
+        // withCredentials([string(credentialsId: 'image-tag', variable: 'image-tag'), string(credentialsId: 'backend-image-uri', variable: 'backend-image-uri'), string(credentialsId: 'frotnend-image-uri', variable: 'frontend-image-uri'), sshUserPrivateKey(credentialsId: 'd0e39f12-5b65-418a-8262-6a41e75e109e', keyFileVariable: 'ssh_key', usernameVariable: 'ssh_user')]) {
+        //     sh """
             ssh -o StrictHostKeyChecking=no -i $ssh_key $ssh_user@$ssh_ip << EOF
             sudo apt update
             sudo apt upgrade -y
@@ -81,7 +84,7 @@ pipeline {
             sudo docker ps
 EOF
             """
-        }
+        // }
     }
 }
     }
