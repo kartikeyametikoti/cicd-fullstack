@@ -5,7 +5,7 @@ def call(){
   withCredentials([
     string(credentialsId: 'image_tag', variable: 'image_tag'), 
     string(credentialsId: 'backend_image_uri', variable: 'backend_image_uri'), 
-    string(credentialsId: 'frotnend_image_uri', variable: 'frotnend_image_uri'), 
+    string(credentialsId: 'frotend_image_uri', variable: 'frotend_image_uri'), 
     string(credentialsId: 'dev_ssh_ip', variable: 'dev_ssh_ip'),
     sshUserPrivateKey(credentialsId: 'd0e39f12-5b65-418a-8262-6a41e75e109e', keyFileVariable: 'ssh_key', usernameVariable: 'ssh_user')
   ]) {
