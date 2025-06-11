@@ -11,7 +11,8 @@ pipeline {
         Ecr_password=credentials('password')
         
      } 
-    stage(){
+    stages{
+    stage{
         steps{
             script{
         env.image_tag=envvars.image_tag
@@ -23,7 +24,6 @@ pipeline {
             }
         }
     }
-    stages { 
         stage('Clean Old Workspace') {
       steps {
         cleanWs() // Deletes leftovers from earlier builds
