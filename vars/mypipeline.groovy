@@ -2,14 +2,7 @@ def call(envvars){
 pipeline {
     agent any  
     environment{
-        // image_tag=credentials('image-tag')
-        // backend_image=credentials('backend-image-uri')
-        // frontend_image=credentials('frotnend-image-uri')
-        // ssh_ip="44.202.240.160"   
-        // Ecr_password=envvars.password
-        // dev_ssh_ip="44.202.240.160"
         Ecr_password=credentials('password') 
-        
      } 
     stages{
         stage('values'){
@@ -26,7 +19,7 @@ pipeline {
     }
         stage('Clean Old Workspace') {
       steps {
-        cleanWs() // Deletes leftovers from earlier builds
+        cleanWs() // Deletes leftovers from earlier builds and workspace 
       } 
     } 
         stage('checking out the code ') {
@@ -64,10 +57,10 @@ pipeline {
            steps {
                script {
       // Dynamically choose the credentials ID based on envvars.ssh_key (set earlier in the pipeline)
-         def selectedCredId = env.ssh_key
+         // def selectedCredId = env.ssh_key
         // withCredentials([string(credentialsId: 'image-tag', variable: 'image-tag'), string(credentialsId: 'backend-image-uri', variable: 'backend-image-uri'), string(credentialsId: 'frotnend-image-uri', variable: 'frontend-image-uri'), sshUserPrivateKey(credentialsId: 'd0e39f12-5b65-418a-8262-6a41e75e109e', keyFileVariable: 'ssh_key', usernameVariable: 'ssh_user')]) {
-        // withCredentials([sshUserPrivateKey(credentialsId: 'ssh_key', keyFileVariable: 'ssh_key', usernameVariable: 'ssh_user')]) { 
-        withCredentials([sshUserPrivateKey(credentialsId: selectedCredId, keyFileVariable: 'ssh_key', usernameVariable: 'ssh_user')]) { 
+        withCredentials([sshUserPrivateKey(credentialsId: 'ssh_key', keyFileVariable: 'ssh_key', usernameVariable: 'ssh_user')]) { 
+        // withCredentials([sshUserPrivateKey(credentialsId: selectedCredId, keyFileVariable: 'ssh_key', usernameVariable: 'ssh_user')]) { 
        
             sh """
             ssh -o StrictHostKeyChecking=no -i $ssh_key $ssh_user@$ssh_ip << EOF
