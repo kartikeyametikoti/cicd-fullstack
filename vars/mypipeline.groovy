@@ -55,7 +55,7 @@ pipeline {
             steps{
                 sh 'docker push $backend_image:$image_tag'
                 sh 'docker push $frontend_image:$image_tag'
-        }
+        } 
         }
         stage('Deploy to EC2') {
             when{ 
