@@ -63,6 +63,7 @@ pipeline {
             }
            steps {
         // withCredentials([string(credentialsId: 'image-tag', variable: 'image-tag'), string(credentialsId: 'backend-image-uri', variable: 'backend-image-uri'), string(credentialsId: 'frotnend-image-uri', variable: 'frontend-image-uri'), sshUserPrivateKey(credentialsId: 'd0e39f12-5b65-418a-8262-6a41e75e109e', keyFileVariable: 'ssh_key', usernameVariable: 'ssh_user')]) {
+        withCredentials([sshUserPrivateKey(credentialsId: 'ssh_key', keyFileVariable: 'ssh_key', usernameVariable: 'ssh_user')]) { 
             sh """
             ssh -o StrictHostKeyChecking=no -i $ssh_key $ssh_user@$ssh_ip << EOF
             sudo apt update
@@ -91,7 +92,7 @@ pipeline {
             sudo docker ps
 EOF
             """
-        // }
+        }
     }
 }
     }
