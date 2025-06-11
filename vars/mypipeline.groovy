@@ -5,17 +5,24 @@ pipeline {
         // image_tag=credentials('image-tag')
         // backend_image=credentials('backend-image-uri')
         // frontend_image=credentials('frotnend-image-uri')
-        Ecr_password=credentials('password')
         // ssh_ip="44.202.240.160"   
-        image_tag=envvars.image_tag
-        backend_image=envvars.backend_image_uri
-        frontend_image=envvars.frotnend_image_uri
         // Ecr_password=envvars.password
-        // dev_ssh_ip="44.202.240.160" 
-        ssh_ip=envvars.ssh_ip
-        ssh_key=envvars.ssh_key
-        ssh_user=envvars.ssh_user
-     }     
+        // dev_ssh_ip="44.202.240.160"
+        Ecr_password=credentials('password')
+        
+     } 
+    stage(){
+        steps{
+            script{
+        env.image_tag=envvars.image_tag
+        env.backend_image=envvars.backend_image_uri
+        env.frontend_image=envvars.frotnend_image_uri
+        env.ssh_ip=envvars.ssh_ip
+        env.ssh_key=envvars.ssh_key
+        env.ssh_user=envvars.ssh_user
+            }
+        }
+    }
     stages { 
         stage('Clean Old Workspace') {
       steps {
