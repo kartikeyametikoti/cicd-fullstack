@@ -1,6 +1,7 @@
 def call(){
   
   def envvars = [:]
+  node {
   withCredentials([
     string(credentialsId: 'image-tag', variable: 'image-tag'), 
     string(credentialsId: 'backend-image-uri', variable: 'backend-image-uri'), 
@@ -16,6 +17,7 @@ def call(){
     ssh_key : ssh_key,
     ssh_user : ssh_user
     ]
+  }
   }
   return envvars
 }
