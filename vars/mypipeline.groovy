@@ -8,7 +8,7 @@ pipeline {
         // ssh_ip="44.202.240.160"   
         // Ecr_password=envvars.password
         // dev_ssh_ip="44.202.240.160"
-        Ecr_password=credentials('password')
+        Ecr_password=credentials('password') 
         
      } 
     stages{
