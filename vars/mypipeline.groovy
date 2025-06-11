@@ -17,7 +17,7 @@ pipeline {
             script{
         env.image_tag=envvars.image_tag
         env.backend_image=envvars.backend_image_uri
-        env.frontend_image=envvars.frotnend_image_uri
+        env.frontend_image=envvars.frontend_image_uri
         env.ssh_ip=envvars.ssh_ip
         env.ssh_key=envvars.ssh_key
         env.ssh_user=envvars.ssh_user
