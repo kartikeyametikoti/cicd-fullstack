@@ -12,8 +12,8 @@ pipeline {
         
      } 
     stages{
-    stage{
-        steps{
+        stage('values'){
+         steps{
             script{
         env.image_tag=envvars.image_tag
         env.backend_image=envvars.backend_image_uri
