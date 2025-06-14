@@ -164,41 +164,41 @@ jobs:
           docker tag frontend:latest ${{ secrets.ECR_REPO_frontend }}:latest
           docker push ${{ secrets.ECR_REPO_backend }}:latest
           docker push ${{ secrets.ECR_REPO_frontend }}:latest
-      - name: Deploy to EC2 instance
-        env:
-          SSH_KEY: ${{ secrets.EC2_SSH_KEY }}  
-          SSH_USER: ${{ secrets.SSH_USER }}    
-          SSH_IP: ${{ secrets.SSH_IP }}
-          # COMMIT_ID: ${{ env.COMMIT_ID }}
-        run: |
-          echo "$SSH_KEY" > kartik-new.pem
-          sudo chmod 400 kartik-new.pem
-          ssh -o StrictHostKeyChecking=no -i kartik-new.pem $SSH_USER@$SSH_IP << 'EOF'
-            sudo yum update
-            sudo yum upgrade -y
-            sudo yum install docker -y || true
-            sudo systemctl enable docker || true
-            sudo systemctl start docker || true
-            sudo usermod -aG docker ubuntu || true
-            sudo docker network create kartik-network || true
-            sudo docker stop backend || true
-            sudo docker rm backend || true
-            sudo docker stop frontend || true
-            sudo docker rm frontend || true
-            sudo docker rmi ${{ secrets.ECR_REPO_backend }}:latest || true
-            sudo docker rmi ${{ secrets.ECR_REPO_frontend }}:latest || true
-            # sudo docker stop mysql-container || true
-            # sudo docker rm mysql-container || true
-            sudo docker run -d --name mysql-container --network kartik-network --restart always -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=kartikdatabase  -e MYSQL_USER=kartikuser -e MYSQL_PASSWORD=password -p 3300:3306 mysql:latest || true
-            aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin $ECR_PASSWORD 
-            sudo docker pull ${{ secrets.ECR_REPO_backend }}:latest
-            sudo docker pull ${{ secrets.ECR_REPO_frontend }}:latest
-            sudo docker run --name=backend --network kartik-network --restart always -p 5000:5000 -e DB_HOST=mysql-container -e DB_PASSWORD=password -e DB_NAME=kartikdatabase  -e DB_USER=kartikuser -d ${{ secrets.ECR_REPO_backend }}:latest
-            sudo docker run --name=frontend --restart always -p 3000:80 -d ${{ secrets.ECR_REPO_frontend }}:latest
+      # - name: Deploy to EC2 instance
+      #   env:
+      #     SSH_KEY: ${{ secrets.EC2_SSH_KEY }}  
+      #     SSH_USER: ${{ secrets.SSH_USER }}    
+      #     SSH_IP: ${{ secrets.SSH_IP }}
+      #     # COMMIT_ID: ${{ env.COMMIT_ID }}
+      #   run: |
+      #     echo "$SSH_KEY" > kartik-new.pem
+      #     sudo chmod 400 kartik-new.pem
+      #     ssh -o StrictHostKeyChecking=no -i kartik-new.pem $SSH_USER@$SSH_IP << 'EOF'
+      #       sudo yum update
+      #       sudo yum upgrade -y
+      #       sudo yum install docker -y || true
+      #       sudo systemctl enable docker || true
+      #       sudo systemctl start docker || true
+      #       sudo usermod -aG docker ubuntu || true
+      #       sudo docker network create kartik-network || true
+      #       sudo docker stop backend || true
+      #       sudo docker rm backend || true
+      #       sudo docker stop frontend || true
+      #       sudo docker rm frontend || true
+      #       sudo docker rmi ${{ secrets.ECR_REPO_backend }}:latest || true
+      #       sudo docker rmi ${{ secrets.ECR_REPO_frontend }}:latest || true
+      #       # sudo docker stop mysql-container || true
+      #       # sudo docker rm mysql-container || true
+      #       sudo docker run -d --name mysql-container --network kartik-network --restart always -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=kartikdatabase  -e MYSQL_USER=kartikuser -e MYSQL_PASSWORD=password -p 3300:3306 mysql:latest || true
+      #       aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin $ECR_PASSWORD 
+      #       sudo docker pull ${{ secrets.ECR_REPO_backend }}:latest
+      #       sudo docker pull ${{ secrets.ECR_REPO_frontend }}:latest
+      #       sudo docker run --name=backend --network kartik-network --restart always -p 5000:5000 -e DB_HOST=mysql-container -e DB_PASSWORD=password -e DB_NAME=kartikdatabase  -e DB_USER=kartikuser -d ${{ secrets.ECR_REPO_backend }}:latest
+      #       sudo docker run --name=frontend --restart always -p 3000:80 -d ${{ secrets.ECR_REPO_frontend }}:latest
             
-            # if we want to send your container logs to cloudwatch then we can use this flag called --log -driver 
-            # sudo docker run -d   --name backend   --log-driver=awslogs   --log-opt awslogs-region=us-east-1   --log-opt awslogs-group=/myapp/backend   --log-opt awslogs-create-group=true -e DB_HOST=mysql-container -e DB_PASSWORD=password -e DB_NAME=kartikdatabase  -e DB_USER=kartikuser -p 5000:5000 --network kartik-network 364700382033.dkr.ecr.us-east-1.amazonaws.com/backend-repo:latest
+      #       # if we want to send your container logs to cloudwatch then we can use this flag called --log -driver 
+      #       # sudo docker run -d   --name backend   --log-driver=awslogs   --log-opt awslogs-region=us-east-1   --log-opt awslogs-group=/myapp/backend   --log-opt awslogs-create-group=true -e DB_HOST=mysql-container -e DB_PASSWORD=password -e DB_NAME=kartikdatabase  -e DB_USER=kartikuser -p 5000:5000 --network kartik-network 364700382033.dkr.ecr.us-east-1.amazonaws.com/backend-repo:latest
             
-            sudo docker ps
-          EOF
+      #       sudo docker ps
+      #     EOF
 # # Update main.yml · kartikeyametikoti/cicd-fullstack@237470a
