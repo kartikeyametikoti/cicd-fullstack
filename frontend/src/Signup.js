@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./styles.css"; // Import the CSS file
   
-function Signup() {
+function Signup() { 
   const [formData, setFormData] = useState({ username: "", email: "", password: "" });
   const navigate = useNavigate(); 
 
