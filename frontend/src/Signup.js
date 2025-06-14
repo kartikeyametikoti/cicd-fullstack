@@ -15,7 +15,7 @@ function Signup() {
     e.preventDefault();
     try {
       // const response = await axios.post("http://54.221.123.218:5000/signup", formData);
-     const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/signup`, formData);
+     const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/signup`, formData);
       // const response = await axios.post("http://backend-loadbalancer-ecs-1656454160.us-east-1.elb.amazonaws.com/signup", formData);
       alert(response.data.message);
       navigate("/login");
