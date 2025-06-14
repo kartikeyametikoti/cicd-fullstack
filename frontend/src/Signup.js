@@ -7,7 +7,7 @@ function Signup() {
   const [formData, setFormData] = useState({ username: "", email: "", password: "" });
   const navigate = useNavigate(); 
 
-  const handleChange = (e) => {
+  const handleChange = (e) => { 
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };   
       
