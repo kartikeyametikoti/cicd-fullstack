@@ -6,7 +6,8 @@ import pymysql
 import os
 
 app = Flask(__name__)
-CORS(app)
+# CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
 bcrypt = Bcrypt(app)
 
 # Database Configuration (Replace with your AWS RDS credentials)
