@@ -4,14 +4,14 @@ on:
   push: 
     paths:
       - 'trigger'
-env: 
-  ECR_REPO_frontend: ${{ secrets.ECR_REPO_frontend }}  
-  ECR_REPO_backend: ${{ secrets.ECR_REPO_backend }}
+# env: 
+#   ECR_REPO_frontend: ${{ secrets.ECR_REPO_frontend }}  
+#   ECR_REPO_backend: ${{ secrets.ECR_REPO_backend }}
 #   IMAGE_TAG: latest
   # ECR_password: ${{ secrets.ECR_password }} 
-permissions:
-      id-token: write   
-      contents: read 
+# permissions:
+#       id-token: write   
+#       contents: read 
 jobs:
   build_image_deploy:
     runs-on: ubuntu-latest
@@ -29,14 +29,16 @@ jobs:
          client-id: ${{ secrets.AZURE_CLIENT_ID }}
          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
-      - name: getting the commid id as tag 
-        run: |
-           echo "COMMIT_ID=$(git rev-parse --short=6 HEAD)" >> $GITHUB_ENV  
-      - name: Login to Amazon ECR
-        uses: aws-actions/amazon-ecr-login@v1
+      - name: Azure ACR Login
+        run: az acr login --name ${{ secrets.ACR_NAME }}
+      # - name: getting the commid id as tag 
+      #   run: |
+      #      echo "COMMIT_ID=$(git rev-parse --short=6 HEAD)" >> $GITHUB_ENV  
+      # - name: Login to Amazon ECR
+      #   uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Login to Amazon ECR
-        run: docker version
+      # - name: Login to Amazon ECR
+      #   run: docker version
         
       # - name: Install Trivy
       #   run: |
@@ -126,11 +128,11 @@ jobs:
       #   with:
       #    name: files vulnerabilities
       #    path: file-vulnerabilities.txt
-      - name: Build Docker image
-        run: |
-          docker build -t backend ./backend/
-          # docker build --build-arg BACKEND_URL=http://35.171.165.126:5000 -t frontend ./frontend/
-          docker build --build-arg BACKEND_URL=https://xgictyxlg1.execute-api.us-east-1.amazonaws.com -t frontend ./frontend/
+      # - name: Build Docker image
+      #   run: |
+      #     docker build -t backend ./backend/
+      #     # docker build --build-arg BACKEND_URL=http://35.171.165.126:5000 -t frontend ./frontend/
+      #     docker build --build-arg BACKEND_URL=https://xgictyxlg1.execute-api.us-east-1.amazonaws.com -t frontend ./frontend/
       # - name: Scan backend Docker image
       #   uses: aquasecurity/trivy-action@master
       #   with:
@@ -165,12 +167,12 @@ jobs:
       #    name: trivy-frontend-image-report
       #    path: frontend-image-report.txt
         
-      - name: Push image to ECR
-        run: |
-          docker tag backend:latest ${{ secrets.ECR_REPO_backend }}:latest
-          docker tag frontend:latest ${{ secrets.ECR_REPO_frontend }}:latest
-          docker push ${{ secrets.ECR_REPO_backend }}:latest
-          docker push ${{ secrets.ECR_REPO_frontend }}:latest
+      # - name: Push image to ECR
+      #   run: |
+      #     docker tag backend:latest ${{ secrets.ECR_REPO_backend }}:latest
+      #     docker tag frontend:latest ${{ secrets.ECR_REPO_frontend }}:latest
+      #     docker push ${{ secrets.ECR_REPO_backend }}:latest
+      #     docker push ${{ secrets.ECR_REPO_frontend }}:latest
       # - name: Deploy to EC2 instance
       #   env:
       #     SSH_KEY: ${{ secrets.EC2_SSH_KEY }}  
