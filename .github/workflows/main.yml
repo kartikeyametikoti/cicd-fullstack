@@ -176,8 +176,8 @@ jobs:
 
       - name: Push image to ACR
         run: |
-          docker tag backend:latest ${{ secrets.ACR_REPO_backend }}:latest
-          docker tag frontend:latest ${{ secrets.ACR_REPO_frontend }}:latest
+          docker tag backend:latest ${{ secrets.ACR_REPO_backend }}/backend:latest
+          docker tag frontend:latest ${{ secrets.ACR_REPO_backend }}/frontend:latest
           docker push ${{ secrets.ACR_REPO_backend }}/backend:latest
           docker push ${{ secrets.ACR_REPO_backend }}/frontend:latest
         
