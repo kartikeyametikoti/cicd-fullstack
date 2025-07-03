@@ -39,7 +39,7 @@ jobs:
       - name: Azure ACR Login
         run: |
          az acr login --name ${{ secrets.ACR_NAME }}
-         az acr login --name ${{ secrets.ACR_FRONTEND_NAME }}
+      # az acr login --name ${{ secrets.ACR_FRONTEND_NAME }}
       # - name: getting the commid id as tag 
       #   run: |
       #      echo "COMMIT_ID=$(git rev-parse --short=6 HEAD)" >> $GITHUB_ENV  
