@@ -140,8 +140,8 @@ jobs:
       - name: Build Docker image
         run: |
           docker build -t backend ./backend/
-          # docker build --build-arg BACKEND_URL=http://35.171.165.126:5000 -t frontend ./frontend/
-          docker build --build-arg BACKEND_URL=https://xgictyxlg1.execute-api.us-east-1.amazonaws.com -t frontend ./frontend/
+          docker build --build-arg BACKEND_URL=http://52.233.89.163:5000 -t frontend ./frontend/
+          # docker build --build-arg BACKEND_URL=https://xgictyxlg1.execute-api.us-east-1.amazonaws.com -t frontend ./frontend/
       # - name: Scan backend Docker image
       #   uses: aquasecurity/trivy-action@master
       #   with:
