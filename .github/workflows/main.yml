@@ -203,10 +203,10 @@ jobs:
 
       - name: Push image to Artifact repositry
         run: |
-          docker tag backend:latest us-central1-docker.pkg.dev/karthik-465412/backend-repo/backend-image:$COMMIT_ID
-          docker tag frontend:latest us-central1-docker.pkg.dev/karthik-465412/backend-repo/backend-image:$COMMIT_ID
-          docker push us-central1-docker.pkg.dev/karthik-465412/backend-repo/backend-image:$COMMIT_ID
-          docker push us-central1-docker.pkg.dev/karthik-465412/backend-repo/backend-image:$COMMIT_ID
+          docker tag backend:latest us-central1-docker.pkg.dev/karthik-465412/backend-repo/backend-image:second
+          docker tag frontend:latest us-central1-docker.pkg.dev/karthik-465412/backend-repo/backend-image:second
+          docker push us-central1-docker.pkg.dev/karthik-465412/backend-repo/backend-image:second
+          docker push us-central1-docker.pkg.dev/karthik-465412/backend-repo/backend-image:second
      
 
 
