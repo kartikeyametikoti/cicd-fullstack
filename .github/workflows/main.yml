@@ -204,9 +204,9 @@ jobs:
       - name: Push image to Artifact repositry
         run: |
           docker tag backend:latest us-central1-docker.pkg.dev/karthik-465412/backend-repo/backend-image:third
-          docker tag frontend:latest us-central1-docker.pkg.dev/karthik-465412/backend-repo/backend-image:third
+          docker tag frontend:latest us-central1-docker.pkg.dev/karthik-465412/frontend-repo/frontend-image:third
           docker push us-central1-docker.pkg.dev/karthik-465412/backend-repo/backend-image:third
-          docker push us-central1-docker.pkg.dev/karthik-465412/backend-repo/backend-image:third
+          docker push us-central1-docker.pkg.dev/karthik-465412/frontend-repo/frontend-image:third
      
 
 
