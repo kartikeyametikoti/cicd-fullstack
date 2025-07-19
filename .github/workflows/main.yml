@@ -49,9 +49,9 @@ jobs:
       - name: artifact registry login
         run: gcloud auth configure-docker us-central1-docker.pkg.dev
       # az acr login --name ${{ secrets.ACR_FRONTEND_NAME }}
-      # - name: getting the commid id as tag 
-      #   run: |
-      #      echo "COMMIT_ID=$(git rev-parse --short=6 HEAD)" >> $GITHUB_ENV  
+      - name: getting the commid id as tag 
+        run: |
+           echo "COMMIT_ID=$(git rev-parse --short=6 HEAD)" >> $GITHUB_ENV  
       # - name: Login to Amazon ECR
       #   uses: aws-actions/amazon-ecr-login@v1
 
@@ -201,10 +201,10 @@ jobs:
 
       - name: Push image to Artifact repositry
         run: |
-          docker tag backend:latest us-central1-docker.pkg.dev/karthik-465412/backend-repo/backend-image:second
-          docker tag frontend:latest us-central1-docker.pkg.dev/karthik-465412/backend-repo/backend-image:latest
-          docker push us-central1-docker.pkg.dev/karthik-465412/backend-repo/backend-image:second
-          docker push us-central1-docker.pkg.dev/karthik-465412/backend-repo/backend-image:latest
+          docker tag backend:latest us-central1-docker.pkg.dev/karthik-465412/backend-repo/backend-image:COMMIT_ID
+          docker tag frontend:latest us-central1-docker.pkg.dev/karthik-465412/backend-repo/backend-image:COMMIT_ID
+          docker push us-central1-docker.pkg.dev/karthik-465412/backend-repo/backend-image:COMMIT_ID
+          docker push us-central1-docker.pkg.dev/karthik-465412/backend-repo/backend-image:COMMIT_ID
      
 
 
