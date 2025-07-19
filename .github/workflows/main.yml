@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - kartik-gcp-cicd
-    # paths:
+    # paths: 
     #   - 'trigger'
 # env: 
 #   ECR_REPO_frontend: ${{ secrets.ECR_REPO_frontend }}  
