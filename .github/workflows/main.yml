@@ -199,7 +199,7 @@ jobs:
       #     docker push ${{ secrets.ECR_REPO_backend }}:latest
       #     docker push ${{ secrets.ECR_REPO_frontend }}:latest
 
-      - name: Push image to ACR
+      - name: Push image to Artifact repositry
         run: |
           docker tag backend:latest us-central1-docker.pkg.dev/karthik-465412/backend-repo/backend-image:latest
           docker tag frontend:latest us-central1-docker.pkg.dev/karthik-465412/backend-repo/backend-image:latest
