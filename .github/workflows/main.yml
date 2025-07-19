@@ -43,9 +43,11 @@ jobs:
       #    tenant-id: ${{ secrets.AZURE_TENANT_ID }}
       #    subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       #    client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
-      - name: Azure ACR Login
-        run: |
-         az acr login --name ${{ secrets.ACR_NAME }}
+      # - name: Azure ACR Login
+      #   run: |
+      #    az acr login --name ${{ secrets.ACR_NAME }}
+      - name: artifact registry login
+        run: gcloud auth configure-docker us-central1-docker.pkg.dev
       # az acr login --name ${{ secrets.ACR_FRONTEND_NAME }}
       # - name: getting the commid id as tag 
       #   run: |
