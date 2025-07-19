@@ -1,9 +1,11 @@
 name: cicd-ec2
  
 on:
-  push: 
-    paths:
-      - 'trigger'
+  push:
+    branches:
+      - kartik-gcp-cicd
+    # paths:
+    #   - 'trigger'
 # env: 
 #   ECR_REPO_frontend: ${{ secrets.ECR_REPO_frontend }}  
 #   ECR_REPO_backend: ${{ secrets.ECR_REPO_backend }}
