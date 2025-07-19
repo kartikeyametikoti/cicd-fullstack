@@ -52,6 +52,7 @@ jobs:
       - name: getting the commid id as tag 
         run: |
            echo "COMMIT_ID=$(git rev-parse --short=6 HEAD)" >> $GITHUB_ENV  
+           echo "$COMMIT_ID"
       # - name: Login to Amazon ECR
       #   uses: aws-actions/amazon-ecr-login@v1
 
