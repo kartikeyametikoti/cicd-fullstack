@@ -1,13 +1,13 @@
 
 pipeline {
     agent any 
-    environment{
-        // image_tag=credentials('image-tag')
-        // backend_image=credentials('backend-image-uri')
-        // frontend_image=credentials('frotnend-image-uri')
-        // Ecr_password=credentials('password')
-        // ssh_ip="44.202.240.160"   
-     }     
+    // environment{
+    //     // image_tag=credentials('image-tag')
+    //     // backend_image=credentials('backend-image-uri')
+    //     // frontend_image=credentials('frotnend-image-uri')
+    //     // Ecr_password=credentials('password')
+    //     // ssh_ip="44.202.240.160"   
+    //  }     
     stages { 
         stage('Clean Old Workspace') {
       steps {
