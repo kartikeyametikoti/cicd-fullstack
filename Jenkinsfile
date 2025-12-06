@@ -1,6 +1,6 @@
 
 pipeline {
-    agent any 
+    agent { label 'jenkins-worker-node' }
     environment{
     //     // image_tag=credentials('image-tag')
         backend_image= "trialsmuz0r.jfrog.io/projectmibl/backned"
