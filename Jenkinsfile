@@ -21,13 +21,11 @@ pipeline {
                 // git branch: 'main', credentialsId: '49a93094-22fe-41cc-ba8d-32d7cf42301d', url: 'https://github.com/kartikeyametikoti/cicd-fullstack'
                 script {
                     // Commit SHA as tag
-                    Image_tag = sh(
+                    image_tag = sh(
                         script: "git rev-parse --short HEAD",
                         returnStdout: true
                     ).trim()
                 }
-
-                echo "image_tag = ${Image_tag}"
             }
         }
         stage('Docker Login to JFrog') {
