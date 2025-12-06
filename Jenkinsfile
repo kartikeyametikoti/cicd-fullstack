@@ -69,6 +69,11 @@ pipeline {
                 """
             }
         }
+        stage('building image'){
+            steps{
+                sh "docker rmi $(docker images)"
+        }
+    }
 
 }
 }
