@@ -1,3 +1,4 @@
+
 // pipeline {
 //     agent { label 'jenkins-worker-node' }
 //     stages {
@@ -77,6 +78,10 @@ pipeline {
     stage('Deploy to VM') {
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId: 'deployment_server_credentials', keyFileVariable: 'KEYFILE')]) {
+
+            sh """
+                scp -o StrictHostKeyChecking=no -i \$KEYFILE docker-compose.yaml ubuntu@65.1.106.254:/home/ubuntu/docker-compose.yaml
+            """
 
             sh """
                 # Connect to VM using the temporary key file
