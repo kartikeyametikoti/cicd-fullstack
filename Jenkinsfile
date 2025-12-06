@@ -71,7 +71,7 @@ pipeline {
         }
         stage('building image'){
             steps{
-                sh "docker rmi $(docker images)"
+                sh "docker system prune -af"
         }
     }
 
