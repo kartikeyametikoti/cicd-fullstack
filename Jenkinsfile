@@ -40,8 +40,8 @@ pipeline {
         }
         stage('building image'){
             steps{
-                sh 'docker build -t $backend_image:$image_tag ./backend'
-                sh 'docker build --build-arg BACKEND_URL=http://$ssh_ip:5000 -t $frontend_image:$image_tag ./frontend'
+                sh "docker build -t $backend_image:$image_tag ./backend"
+                sh "docker build --build-arg BACKEND_URL=http://$ssh_ip:5000 -t $frontend_image:$image_tag ./frontend"
 
         }
     }
