@@ -82,8 +82,8 @@ pipeline {
                 # Connect to VM using the temporary key file
                 ssh -o StrictHostKeyChecking=no -i $KEYFILE ubuntu@13.201.186.44 '
                     cd /home/ubuntu
-                    BACKEND_TAG=$image_tag FRONTEND_TAG=$image_tag docker compose pull
-                    BACKEND_TAG=$image_tag FRONTEND_TAG=$image_tag docker compose up -d
+                    BACKEND_TAG=$image_tag FRONTEND_TAG=$image_tag /usr/bin/docker compose pull
+                    BACKEND_TAG=$image_tag FRONTEND_TAG=$image_tag /usr/bin/docker compose up -d
                 '
             """
                } 
