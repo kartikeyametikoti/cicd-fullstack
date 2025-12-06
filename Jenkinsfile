@@ -54,26 +54,40 @@ pipeline {
               }
             }
         }
-        stage('building image'){
-            steps{
-                sh "docker build -t $backend_image:$image_tag ./backend"
-                sh "docker build --build-arg BACKEND_URL=http://$ssh_ip:5000 -t $frontend_image:$image_tag ./frontend"
+    //     stage('building image'){
+    //         steps{
+    //             sh "docker build -t $backend_image:$image_tag ./backend"
+    //             sh "docker build --build-arg BACKEND_URL=http://$ssh_ip:5000 -t $frontend_image:$image_tag ./frontend"
 
-        }
-    }
-        stage('Push Images to JFrog') {
+    //     }
+    // }
+    //     stage('Push Images to JFrog') {
+    //         steps {
+    //             sh """
+    //                 docker push ${backend_image}:${image_tag}
+    //                 docker push ${frontend_image}:${image_tag}
+    //             """
+    //         }
+    //     }
+    //     stage('cleaning all the images'){
+    //         steps{
+    //             sh "docker system prune -af"
+    //     }
+    // }
+    stage('Deploy to VM') {
             steps {
-                sh """
-                    docker push ${backend_image}:${image_tag}
-                    docker push ${frontend_image}:${image_tag}
-                """
+                sshagent(['vm_credentials']) {
+    sh """
+        ssh ubuntu@13.201.186.44 '
+            cd /home/ubuntu
+            BACKEND_TAG=$image_tag FRONTEND_TAG=$image_tag docker compose pull
+            BACKEND_TAG=$image_tag FRONTEND_TAG=$image_tag docker compose up -d
+        '
+    """
+}
+
             }
         }
-        stage('cleaning all the images'){
-            steps{
-                sh "docker system prune -af"
-        }
-    }
 
 }
 }
