@@ -69,7 +69,7 @@ pipeline {
                 """
             }
         }
-        stage('building image'){
+        stage('cleaning all the images'){
             steps{
                 sh "docker system prune -af"
         }
