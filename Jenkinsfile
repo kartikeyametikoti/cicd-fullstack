@@ -1,13 +1,14 @@
 
 pipeline {
     agent any 
-    // environment{
+    environment{
     //     // image_tag=credentials('image-tag')
-    //     // backend_image=credentials('backend-image-uri')
-    //     // frontend_image=credentials('frotnend-image-uri')
+        backend_image= "trialsmuz0r.jfrog.io/projectmibl/backned"
+        frontend_image= "trialsmuz0r.jfrog.io/projectmibl/frontend"
+        JFROG_CREDS = credentials('Jfrog_creds')
     //     // Ecr_password=credentials('password')
-    //     // ssh_ip="44.202.240.160"   
-    //  }     
+        ssh_ip="13.201.186.44"   
+     }     
     stages { 
         stage('Clean Old Workspace') {
       steps {
@@ -18,6 +19,40 @@ pipeline {
             steps {
                 git branch: 'main', credentialsId: 'github-creds', url: 'https://github.com/kartikeyametikoti/cicd-fullstack'
                 // git branch: 'main', credentialsId: '49a93094-22fe-41cc-ba8d-32d7cf42301d', url: 'https://github.com/kartikeyametikoti/cicd-fullstack'
+                script {
+                    // Commit SHA as tag
+                    Image_tag = sh(
+                        script: "git rev-parse --short HEAD",
+                        returnStdout: true
+                    ).trim()
+                }
+
+                echo "image_tag = ${Image_tag}"
+            }
+        }
+        stage('Docker Login to JFrog') {
+            steps {
+              withCredentials([usernamePassword(credentialsId: 'Jfrog_creds', passwordVariable: 'jfrog_passwd', usernameVariable: 'jfrog_usr')]) {
+                  sh '''
+                echo $jfrog_passwd | docker login trialsmuz0r.jfrog.io \
+                    -u $jfrog_usr --password-stdin
+                '''
+              }
+            }
+        }
+        stage('building image'){
+            steps{
+                sh 'docker build -t $backend_image:$image_tag ./backend'
+                sh 'docker build --build-arg BACKEND_URL=http://$ssh_ip:5000 -t $frontend_image:$image_tag ./frontend'
+
+        }
+    }
+        stage('Push Images to JFrog') {
+            steps {
+                sh """
+                    docker push ${backend_image}:${image_tag}
+                    docker push ${frontend_image}:${image_tag}
+                """
             }
         }
 
