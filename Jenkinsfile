@@ -80,7 +80,7 @@ pipeline {
                 withCredentials([sshUserPrivateKey(credentialsId: 'deployment_server_credentials', keyFileVariable: 'KEYFILE')]) {
 
             sh """
-                scp -o StrictHostKeyChecking=no -i "$KEYFILE" $WORKSPACE/docker-compose.yaml ubuntu@13.201.186.44:/home/ubuntu/
+                scp -o StrictHostKeyChecking=no -i "$KEYFILE" $WORKSPACE/docker-compose.yaml ubuntu@13.233.246.32:/home/ubuntu/
             """
 
             sh """
