@@ -24,7 +24,7 @@ pipeline {
         frontend_image= "trialsmuz0r.jfrog.io/projectmibl/frontend"
         JFROG_CREDS = credentials('Jfrog_creds')
     //     // Ecr_password=credentials('password')
-        ssh_ip="13.201.186.44"   
+        ssh_ip="15.206.178.86"   
      }     
     stages { 
         stage('Clean Old Workspace') {
