@@ -18,6 +18,10 @@
 // new line 
 pipeline {
     agent { label 'jenkins-worker-node' }
+    
+    triggers {
+        githubPush()   // <--- THIS IS THE TRIGGER
+    }
     environment{
     //     // image_tag=credentials('image-tag')
         backend_image= "trialsmuz0r.jfrog.io/projectmibl/backned"
