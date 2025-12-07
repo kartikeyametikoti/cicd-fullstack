@@ -25,7 +25,7 @@ services:
 
   backend:
     image: trialsmuz0r.jfrog.io/projectmibl/backned:${BACKEND_TAG}  
-    container_name: backend
+    container_name: backend-${BACKEND_TAG}
     ports:
       - "5000:5000"
     environment:
@@ -41,7 +41,7 @@ services:
 
   frontend:
     image: trialsmuz0r.jfrog.io/projectmibl/frontend:${FRONTEND_TAG}  
-    container_name: frontend
+    container_name: frontend-${FRONTEND_TAG}
     ports:
       - "3000:80"
     networks:
