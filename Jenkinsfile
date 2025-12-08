@@ -28,7 +28,7 @@ pipeline {
         frontend_image= "trialsmuz0r.jfrog.io/projectmibl/frontend"
         JFROG_CREDS = credentials('Jfrog_creds')
     //     // Ecr_password=credentials('password')
-        ssh_ip="15.206.178.86"   
+        ssh_ip="13.232.38.146"   
      }     
     stages { 
         stage('Clean Old Workspace') {
@@ -89,7 +89,7 @@ pipeline {
 
             sh """
                 # Connect to VM using the temporary key file
-                ssh -o StrictHostKeyChecking=no -i $KEYFILE ubuntu@15.206.178.86 '
+                ssh -o StrictHostKeyChecking=no -i $KEYFILE ubuntu@13.232.38.146 '
                     cd /home/ubuntu
                     env BACKEND_TAG=$image_tag FRONTEND_TAG=$image_tag docker compose pull
                     env BACKEND_TAG=$image_tag FRONTEND_TAG=$image_tag docker compose up -d
