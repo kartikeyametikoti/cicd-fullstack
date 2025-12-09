@@ -28,7 +28,8 @@ pipeline {
         frontend_image= "trialsmuz0r.jfrog.io/projectmibl/frontend"
         JFROG_CREDS = credentials('Jfrog_creds')
     //     // Ecr_password=credentials('password')
-        ssh_ip="13.232.179.191"   
+        deployment_ip="65.0.178.241"   
+        worker_node="13.232.179.191"
      }     
     stages { 
         stage('Clean Old Workspace') {
@@ -62,7 +63,7 @@ pipeline {
         stage('building image'){
             steps{
                 sh "docker build -t $backend_image:$image_tag ./backend"
-                sh "docker build --build-arg BACKEND_URL=http://$ssh_ip:5000 -t $frontend_image:$image_tag ./frontend"
+                sh "docker build --build-arg BACKEND_URL=http://$deployment_ip:5000 -t $frontend_image:$image_tag ./frontend"
 
         }
     }
@@ -84,12 +85,12 @@ pipeline {
                 withCredentials([sshUserPrivateKey(credentialsId: 'deployment_server_credentials', keyFileVariable: 'KEYFILE')]) {
 
             sh """
-                scp -o StrictHostKeyChecking=no -i "$KEYFILE" $WORKSPACE/docker-compose.yaml ubuntu@13.232.179.191:/home/ubuntu/
+                scp -o StrictHostKeyChecking=no -i "$KEYFILE" $WORKSPACE/docker-compose.yaml ubuntu@$worker_node:/home/ubuntu/
             """
 
             sh """
                 # Connect to VM using the temporary key file
-                ssh -o StrictHostKeyChecking=no -i $KEYFILE ubuntu@65.0.178.241 '
+                ssh -o StrictHostKeyChecking=no -i $KEYFILE ubuntu@$deployment_ip '
                     cd /home/ubuntu
                     env BACKEND_TAG=$image_tag FRONTEND_TAG=$image_tag docker compose pull
                     env BACKEND_TAG=$image_tag FRONTEND_TAG=$image_tag docker compose up -d
