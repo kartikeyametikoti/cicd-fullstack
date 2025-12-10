@@ -28,8 +28,8 @@ pipeline {
         frontend_image= "trialsmuz0r.jfrog.io/projectmibl/frontend"
         JFROG_CREDS = credentials('Jfrog_creds')
     //     // Ecr_password=credentials('password')
-        deployment_ip="65.0.178.241"   
-        worker_node="13.232.179.191"
+        deployment_ip="172.31.2.129"   
+        worker_node="172.31.6.122"
      }     
     stages { 
         stage('Clean Old Workspace') {
