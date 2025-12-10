@@ -30,6 +30,7 @@ pipeline {
     //     // Ecr_password=credentials('password')
         deployment_ip="172.31.2.129"   
         worker_node="172.31.6.122"
+        deployment_public_ip="13.201.226.95"
      }     
     stages { 
         stage('Clean Old Workspace') {
@@ -63,7 +64,7 @@ pipeline {
         stage('building image'){
             steps{
                 sh "docker build -t $backend_image:$image_tag ./backend"
-                sh "docker build --build-arg BACKEND_URL=http://$deployment_ip:5000 -t $frontend_image:$image_tag ./frontend"
+                sh "docker build --build-arg BACKEND_URL=http://$deployment_public_ip:5000 -t $frontend_image:$image_tag ./frontend"
 
         }
     }
