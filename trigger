@@ -5,6 +5,6 @@
   "tenantId": "<Directory (tenant) ID>"
 }
    
-#new commit tries new
+#new commit tries new latest
            
     
