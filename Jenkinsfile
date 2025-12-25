@@ -16,6 +16,10 @@
 // new line 
 pipeline {
     agent { label 'jenkins-worker-node' }
+
+    tools {
+        sonarScanner 'sonarqube'
+    }
     
     triggers {
         githubPush()   // <--- THIS IS THE TRIGGER
@@ -46,6 +50,20 @@ pipeline {
                         script: "git rev-parse --short HEAD",
                         returnStdout: true
                     ).trim()
+                }
+            }
+        }
+        // 🔹 ADDED: SonarQube Analysis
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('SonarQubeServer') {
+                    sh """
+                        sonar-scanner \
+                          -Dsonar.projectKey=mibl-app \
+                          -Dsonar.projectName=mibl-app \
+                          -Dsonar.sources=. \
+                          -Dsonar.exclusions=**/node_modules/**,**/dist/**,**/build/**
+                    """
                 }
             }
         }
