@@ -40,19 +40,19 @@ pipeline {
         cleanWs() // Deletes leftovers from earlier builds
       } 
     } 
-        // stage('checking out the code ') {
-        //     steps {
-        //         git branch: 'main', credentialsId: 'github-creds', url: 'https://github.com/kartikeyametikoti/cicd-fullstack'
-        //         // git branch: 'main', credentialsId: '49a93094-22fe-41cc-ba8d-32d7cf42301d', url: 'https://github.com/kartikeyametikoti/cicd-fullstack'
-        //         script {
-        //             // Commit SHA as tag
-        //             image_tag = sh(
-        //                 script: "git rev-parse --short HEAD",
-        //                 returnStdout: true
-        //             ).trim()
-        //         }
-        //     }
-        // }
+        stage('checking out the code ') {
+            steps {
+                git branch: 'main', credentialsId: 'github-creds', url: 'https://github.com/kartikeyametikoti/cicd-fullstack'
+                // git branch: 'main', credentialsId: '49a93094-22fe-41cc-ba8d-32d7cf42301d', url: 'https://github.com/kartikeyametikoti/cicd-fullstack'
+                script {
+                    // Commit SHA as tag
+                    image_tag = sh(
+                        script: "git rev-parse --short HEAD",
+                        returnStdout: true
+                    ).trim()
+                }
+            }
+        }
         // 🔹 ADDED: SonarQube Analysis
         stage('SonarQube Analysis') {
             steps {
@@ -61,7 +61,7 @@ pipeline {
                         sonar-scanner \
                           -Dsonar.projectKey=mibl-app \
                           -Dsonar.projectName=mibl-app \
-                          -Dsonar.sources=backend,frontend \
+                          -Dsonar.sources=. \
                           -Dsonar.exclusions=**/node_modules/**,**/dist/**,**/build/**
                     """
                 }
