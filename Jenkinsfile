@@ -56,7 +56,7 @@ pipeline {
         // 🔹 ADDED: SonarQube Analysis
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('SonarQubeServer') {
+                withSonarQubeEnv('sonarqube') {
                     sh """
                         sonar-scanner \
                           -Dsonar.projectKey=mibl-app \
