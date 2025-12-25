@@ -33,6 +33,7 @@ pipeline {
         deployment_ip="172.31.2.129"   
         worker_node="172.31.6.122"
         deployment_public_ip="13.235.49.131"
+        SONAR_SCANNER_OPTS = "-Xmx2g" // increasing the java heap memory to violate the sonarqube scanning failures
      }     
     stages { 
         stage('Clean Old Workspace') {
