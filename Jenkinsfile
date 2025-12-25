@@ -17,9 +17,9 @@
 pipeline {
     agent { label 'jenkins-worker-node' }
 
-    // tools {
-    //     sonarRunner 'sonarqube'
-    // }
+    tools {
+        sonarRunner 'sonarqube'
+    }
     
     triggers {
         githubPush()   // <--- THIS IS THE TRIGGER
