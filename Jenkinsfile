@@ -18,7 +18,7 @@ pipeline {
     agent { label 'jenkins-worker-node' }
 
     tools {
-        sonarRunner 'sonarqube'
+        sonarQubeScanner 'sonarqube'
     }
     
     triggers {
