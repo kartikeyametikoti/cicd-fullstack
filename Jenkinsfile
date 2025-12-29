@@ -44,41 +44,41 @@ pipeline {
             }
         }
 
-        stage('Docker Login') {
-            steps {
-                dockerLogin(
-                    registry: 'trialsmuz0r.jfrog.io',
-                    credsId: 'Jfrog_creds'
-                )
-            }
-        }
+//         stage('Docker Login') {
+//             steps {
+//                 dockerLogin(
+//                     registry: 'trialsmuz0r.jfrog.io',
+//                     credsId: 'Jfrog_creds'
+//                 )
+//             }
+//         }
 
-        stage('Build & Push Images') {
-            steps {
-                dockerBuildAndPush(
-                    backendImage: backend_image,
-                    frontendImage: frontend_image,
-                    backendUrl: deployment_public_ip
-                )
-            }
-        }
+//         stage('Build & Push Images') {
+//             steps {
+//                 dockerBuildAndPush(
+//                     backendImage: backend_image,
+//                     frontendImage: frontend_image,
+//                     backendUrl: deployment_public_ip
+//                 )
+//             }
+//         }
 
-        stage('Cleanup Images') {
-            steps {
-                dockerCleanup()
-            }
-        }
+//         stage('Cleanup Images') {
+//             steps {
+//                 dockerCleanup()
+//             }
+//         }
 
-        stage('Deploy to VM') {
-            steps {
-                deployVM(
-                    host: deployment_ip,
-                    workerNode: worker_node
-                )
-            }
-        }
-    }
-}
+//         stage('Deploy to VM') {
+//             steps {
+//                 deployVM(
+//                     host: deployment_ip,
+//                     workerNode: worker_node
+//                 )
+//             }
+//         }
+//     }
+// }
 
 
 
