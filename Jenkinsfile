@@ -78,56 +78,56 @@ pipeline {
                 }
             }
         } 
-    //     stage('Docker Login to JFrog') {
-    //         steps {
-    //           withCredentials([usernamePassword(credentialsId: 'Jfrog_creds', passwordVariable: 'jfrog_passwd', usernameVariable: 'jfrog_usr')]) {
-    //               sh '''
-    //             echo $jfrog_passwd | docker login trialsmuz0r.jfrog.io \
-    //                 -u $jfrog_usr --password-stdin
-    //             '''
-    //           }
-    //         }
-    //     }
-    //     stage('building image'){
-    //         steps{
-    //             sh "docker build -t $backend_image:$image_tag ./backend"
-    //             sh "docker build --build-arg BACKEND_URL=http://$deployment_public_ip:5000 -t $frontend_image:$image_tag ./frontend"
+        stage('Docker Login to JFrog') {
+            steps {
+              withCredentials([usernamePassword(credentialsId: 'Jfrog_creds', passwordVariable: 'jfrog_passwd', usernameVariable: 'jfrog_usr')]) {
+                  sh '''
+                echo $jfrog_passwd | docker login trialsmuz0r.jfrog.io \
+                    -u $jfrog_usr --password-stdin
+                '''
+              }
+            }
+        }
+        stage('building image'){
+            steps{
+                sh "docker build -t $backend_image:$image_tag ./backend"
+                sh "docker build --build-arg BACKEND_URL=http://$deployment_public_ip:5000 -t $frontend_image:$image_tag ./frontend"
 
-    //     }
-    // }
-    //     stage('Push Images to JFrog') {
-    //         steps {
-    //             sh """
-    //                 docker push ${backend_image}:${image_tag}
-    //                 docker push ${frontend_image}:${image_tag}
-    //             """
-    //         }
-    //     }
-    //     stage('cleaning all the images'){
-    //         steps{
-    //             sh "docker system prune -af"
-    //     }
-    // }
-    // stage('Deploy to VM') {
-    //         steps {
-    //             withCredentials([sshUserPrivateKey(credentialsId: 'deployment_server_credentials', keyFileVariable: 'KEYFILE')]) {
+        }
+    }
+        stage('Push Images to JFrog') {
+            steps {
+                sh """
+                    docker push ${backend_image}:${image_tag}
+                    docker push ${frontend_image}:${image_tag}
+                """
+            }
+        }
+        stage('cleaning all the images'){
+            steps{
+                sh "docker system prune -af"
+        }
+    }
+    stage('Deploy to VM') {
+            steps {
+                withCredentials([sshUserPrivateKey(credentialsId: 'deployment_server_credentials', keyFileVariable: 'KEYFILE')]) {
 
-    //         sh """
-    //             scp -o StrictHostKeyChecking=no -i "$KEYFILE" $WORKSPACE/docker-compose.yaml ubuntu@$worker_node:/home/ubuntu/
-    //         """
+            sh """
+                scp -o StrictHostKeyChecking=no -i "$KEYFILE" $WORKSPACE/docker-compose.yaml ubuntu@$worker_node:/home/ubuntu/
+            """
 
-    //         sh """
-    //             # Connect to VM using the temporary key file
-    //             ssh -o StrictHostKeyChecking=no -i $KEYFILE ubuntu@$deployment_ip '
-    //                 cd /home/ubuntu
-    //                 env BACKEND_TAG=$image_tag FRONTEND_TAG=$image_tag docker compose pull
-    //                 env BACKEND_TAG=$image_tag FRONTEND_TAG=$image_tag docker compose up -d
-    //             '
-    //         """
-    //            } 
+            sh """
+                # Connect to VM using the temporary key file
+                ssh -o StrictHostKeyChecking=no -i $KEYFILE ubuntu@$deployment_ip '
+                    cd /home/ubuntu
+                    env BACKEND_TAG=$image_tag FRONTEND_TAG=$image_tag docker compose pull
+                    env BACKEND_TAG=$image_tag FRONTEND_TAG=$image_tag docker compose up -d
+                '
+            """
+               } 
 
-    //         }
-    //     }
+            }
+        }
 
 }
 }
