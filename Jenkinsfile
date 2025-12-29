@@ -58,13 +58,23 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('sonarqube') {
-                    sh """
-                        sonar-scanner \
-                          -Dsonar.projectKey=mibl-app \
-                          -Dsonar.projectName=mibl-app \
-                          -Dsonar.sources=backend/app.py \
-                          -Dsonar.exclusions=**/node_modules/**,**/dist/**,**/build/**
-                    """
+                    script {
+                def scannerHome = tool 'sonarqube'
+                sh """
+                    ${scannerHome}/bin/sonar-scanner \
+                      -Dsonar.projectKey=mibl-app \
+                      -Dsonar.projectName=mibl-app \
+                      -Dsonar.sources=backend/app.py \
+                      -Dsonar.exclusions=**/node_modules/**,**/dist/**,**/build/**
+                """
+            }
+                    // sh """
+                    //     sonar-scanner \
+                    //       -Dsonar.projectKey=mibl-app \
+                    //       -Dsonar.projectName=mibl-app \
+                    //       -Dsonar.sources=backend/app.py \
+                    //       -Dsonar.exclusions=**/node_modules/**,**/dist/**,**/build/**
+                    // """
                 }
             }
         } 
