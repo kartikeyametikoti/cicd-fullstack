@@ -21,9 +21,9 @@ pipeline {
     //     sonarQubeScanner 'sonarqube'
     // }
     
-    triggers {
-        githubPush()   // <--- THIS IS THE TRIGGER
-    }
+    // triggers {
+    //     githubPush()   // <--- THIS IS THE TRIGGER
+    // }
     environment{
     //     // image_tag=credentials('image-tag')
         backend_image= "trialsmuz0r.jfrog.io/projectmibl/backned"
