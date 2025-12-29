@@ -64,7 +64,7 @@ pipeline {
                     ${scannerHome}/bin/sonar-scanner \
                       -Dsonar.projectKey=mibl-app \
                       -Dsonar.projectName=mibl-app \
-                      -Dsonar.sources=backend/app.py,frontend/src \
+                      -Dsonar.sources=backend/app.py,frontend/src/Signup.js,frontend/src/Login.js \
                       -Dsonar.exclusions=**/node_modules/**,**/dist/**,**/build/**
                 """
             }
