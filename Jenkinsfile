@@ -1,4 +1,4 @@
-@Library('cicd-fullstack') _
+@Library('cicd-fullstack@main') _
 
 pipeline {
     agent { label 'jenkins-worker-node' }
