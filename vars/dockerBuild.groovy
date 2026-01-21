@@ -15,7 +15,7 @@ def call(Map cfg = [:]) {
     sh """
         docker build \
         -t ${backendImage}:${imageTag} \
-        backend
+        ./backend
     """
 
     // -------- Frontend Build --------
@@ -24,6 +24,6 @@ def call(Map cfg = [:]) {
         docker build \
         --build-arg BACKEND_URL=http://${backendUrl}:5000 \
         -t ${frontendImage}:${imageTag} \
-        frontend
+        ./frontend
     """
 }
