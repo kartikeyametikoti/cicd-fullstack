@@ -1,37 +1,54 @@
-@Library('cicd-fullstack@main') _
+@Library('mibl-shared-lib@jenkins-lib') _
 
-pipeline {
-    agent { label 'jenkins-worker-node' }
+checkoutPipeline(
+    agent: 'jenkins-worker-node',
+    repoUrl: 'https://github.com/kartikeyametikoti/cicd-fullstack.git',
+    branch: 'main',
+    gitCreds: 'github-creds'
+)
 
-    triggers {
-        githubPush()
-    }
 
-    environment {
-        backend_image  = "trialsmuz0r.jfrog.io/projectmibl/backned"
-        frontend_image = "trialsmuz0r.jfrog.io/projectmibl/frontend"
-        deployment_ip  = "172.31.2.129"
-        worker_node    = "172.31.6.122"
-        deployment_public_ip = "13.235.49.131"
-        SONAR_SCANNER_OPTS = "-Xmx2g"
-    }
 
-    stages {
-        stage('Clean Workspace') {
-            steps {
-                cleanWorkspace()
-            }
-        }
 
-        stage('Checkout Code') {
-            steps {
-                gitCheckout(
-                    branch: 'main',
-                    repoUrl: 'https://github.com/kartikeyametikoti/cicd-fullstack',
-                    credsId: 'github-creds'
-                )
-            }
-        }
+
+
+
+
+
+// @Library('cicd-fullstack@main') _
+
+// pipeline {
+//     agent { label 'jenkins-worker-node' }
+
+//     triggers {
+//         githubPush()
+//     }
+
+//     environment {
+//         backend_image  = "trialsmuz0r.jfrog.io/projectmibl/backned"
+//         frontend_image = "trialsmuz0r.jfrog.io/projectmibl/frontend"
+//         deployment_ip  = "172.31.2.129"
+//         worker_node    = "172.31.6.122"
+//         deployment_public_ip = "13.235.49.131"
+//         SONAR_SCANNER_OPTS = "-Xmx2g"
+//     }
+
+//     stages {
+//         stage('Clean Workspace') {
+//             steps {
+//                 cleanWorkspace()
+//             }
+//         }
+
+//         stage('Checkout Code') {
+//             steps {
+//                 gitCheckout(
+//                     branch: 'main',
+//                     repoUrl: 'https://github.com/kartikeyametikoti/cicd-fullstack',
+//                     credsId: 'github-creds'
+//                 )
+//             }
+//         }
 
         // stage('SonarQube Analysis') {
         //     steps {
