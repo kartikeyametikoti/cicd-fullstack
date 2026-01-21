@@ -4,7 +4,7 @@ GenfoundationPipeline(
     agent: 'jenkins-worker-node',
     repoUrl: 'https://github.com/kartikeyametikoti/cicd-fullstack.git',
     branch: 'main',
-    gitCreds: 'github-creds'
+    gitCreds: 'github-creds',
     backendImage: 'mibl/backend',
     frontendImage: 'mibl/frontend',
     backendUrl: '65.1.3.140'
