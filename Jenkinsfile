@@ -1,4 +1,4 @@
-@Library('mibl-shared-lib@jenkins-lib') _
+@Library('mibl-shared-lib@shared-lib') _
 
 checkoutPipeline(
     agent: 'jenkins-worker-node',
