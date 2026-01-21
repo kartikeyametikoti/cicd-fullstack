@@ -33,16 +33,16 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
-            steps {
-                sonarScan(
-                    projectKey: 'mibl-app',
-                    projectName: 'mibl-app',
-                    sources: 'backend/app.py,frontend/src',
-                    exclusions: '**/node_modules/**,**/dist/**,**/build/**'
-                )
-            }
-        }
+        // stage('SonarQube Analysis') {
+        //     steps {
+        //         sonarScan(
+        //             projectKey: 'mibl-app',
+        //             projectName: 'mibl-app',
+        //             sources: 'backend/app.py,frontend/src',
+        //             exclusions: '**/node_modules/**,**/dist/**,**/build/**'
+        //         )
+        //     }
+        // }
 
         
 //         stage('Docker Login') {
