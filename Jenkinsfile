@@ -1,6 +1,6 @@
 @Library('mibl-shared-lib@shared-lib') _
 
-Genfoundationpipeline(
+GenfoundationPipeline(
     agent: 'jenkins-worker-node',
     repoUrl: 'https://github.com/kartikeyametikoti/cicd-fullstack.git',
     branch: 'main',
