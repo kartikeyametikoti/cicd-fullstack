@@ -1,7 +1,7 @@
 def call(Map cfg = [:]) {
 
     pipeline {
-        agent any
+        agent { label cfg.agent ?: 'any' }
 
         options {
             timestamps()
